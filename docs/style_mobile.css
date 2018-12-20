@@ -29,11 +29,21 @@
 }
 
 
+
+/**********************
+  style definition
+  *********************/
+@import url('https://fonts.googleapis.com/css?family=Song+Myung');
+
+
+
+
 /**********************
   container definition
   *********************/
 body{
 	margin: 0;
+	font-family: 'Song Myung', serif;
 }
 #container{
 	position: relative;

@@ -18,7 +18,7 @@ var beads = {
 	*/
 }
 var rad_all = [];
-var DATA_LENGTH = 6 //date, day, spectrum, intensity, duration, note
+var DATA_LENGTH = 6; //date, day, spectrum, intensity, duration, note
 var url_parameter = "https://spreadsheets.google.com/pub?key=1IqZWY3edz2fGNT8O3uciprX6oElkLu8Vm8-i33CMNyk&hl=kr&output=html";
 var googleSpreadsheet = new GoogleSpreadsheet();
 
@@ -34,19 +34,19 @@ $(document).ready(function(){
 	loadSheetData(googleSpreadsheet);
 	googleSpreadsheet.load(function(){
 		putBeads(beads.property);
+		loadingEffect();
+		clickToExpand();
 	});
 });
 
-
 function setCSS(){
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-	 // some code..
 		console.log('mobile browser');
 	 	$("head").append("<link rel='stylesheet' href='style_mobile.css' type='text/css' media='screen' />");
 	}
 	else{
 		console.log('pc browser');
-		$("head").append("<link rel='stylesheet' href='style.css' type='text/css' media='screen' />");
+		$("head").append("<link rel='stylesheet' href='style_mobile.css' type='text/css' media='screen' />");
 	}
 }
 
@@ -79,9 +79,9 @@ function putBeads(beadsObj){
 	//retrieve radius
 	for(i = 1; i <= 5; i++){
 		var target = "<div class='bead-size-"+i+"'></div>";
-		var $bead = $(target).hide().appendTo("body");
-		rad_all.push($bead.css('width').replace('px', ''));
-		$bead.remove();
+		var beadGhost = $(target).hide().appendTo("body");
+		rad_all.push(beadGhost.css('width').replace('px', ''));
+		beadGhost.remove();
 	}
 	$.each(beadsObj, function(i, item){
 		//retrieve color and fill image
@@ -125,5 +125,20 @@ function putBeads(beadsObj){
 			$(obj_entry).append(obj_placeholder);
 			$(obj_entry).appendTo('#container');
 		}
+	});
+}
+
+
+function loadingEffect(){
+	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2018년의 어느 날들</h><\/div>";
+	window.scrollTo(0,$(document).height());
+	$(footer).appendTo('#container');
+}
+
+
+function clickToExpand(){
+	$(".bead-base").click(function(){
+		var entry = $(this).parentsUntil(".bead-entry");
+		$(entry).height($(window).height());
 	});
 }
