@@ -4,26 +4,26 @@
 
 :root {
 	/*phone layout*/
-	--p-bead-size-1: 60px;
-	--p-bead-size-2: 80px;
-	--p-bead-size-3: 100px;
-	--p-bead-size-4: 120px;
-	--p-bead-size-5: 150px;
-	--p-container-padding-min: 24px;
-	--p-container-padding-med: 32px;
-	--p-container-padding-max: 120px;
+	--p-d-1: 60px;
+	--p-d-2: 80px;
+	--p-d-3: 100px;
+	--p-d-4: 120px;
+	--p-d-5: 150px;
+	--p-padding-min: 24px;
+	--p-padding-med: 32px;
+	--p-padding-max: 120px;
 	--p-panel-height: 80px;
 	--p-h1-size: 20px;
 
 	/*tablet layout*/
-	--t-bead-size-1: 100px;
-	--t-bead-size-2: 130px;
-	--t-bead-size-3: 160px;
-	--t-bead-size-4: 200px;
-	--t-bead-size-5: 250px;
-	--t-container-padding-min: 32px;
-	--t-container-padding-med: 80px;
-	--t-container-padding-max: 160px;
+	--t-d-1: 100px;
+	--t-d-2: 130px;
+	--t-d-3: 160px;
+	--t-d-4: 200px;
+	--t-d-5: 250px;
+	--t-padding-min: 32px;
+	--t-padding-med: 80px;
+	--t-padding-max: 160px;
 	--t-panel-height: 100px;
 	--t-h1-size: 24px;
 }
@@ -87,6 +87,7 @@ body{
 	position: absolute;
 	display: block;
 	right: 0;
+	top: 50%;
 }
 
 
@@ -116,6 +117,8 @@ body{
 	background-blend-mode: overlay, normal, screen;
 	background-size: 100%;
 	right: 0;
+	-webkit-transform: translate(50%, -50%);
+	transform: translate(50%, -50%);
 }
 
 .bead-shadow{
@@ -125,252 +128,134 @@ body{
 	background-size: 100%;
 	background-blend-mode: screen;
 	right: 0;
+	-webkit-transform: translate(25%, -25%);
+	transform: translate(25%, -25%);
 }
+
+
+
+/*******************
+ * size definition *
+ *******************/
 
 /*smartphone portrait*/
 @media screen and (max-aspect-ratio: 1/1) and (max-width: 640px){
-	#container{
-		padding-top: var(--p-container-padding-min);
-		padding-bottom: var(--p-container-padding-max);
-	}
-	#panel{
-		height: var(--p-panel-height);
-		padding: 0px var(--p-container-padding-min);
-	}
-	.text-header{
-		top: calc( var(--p-panel-height) / 2);
-		transform: translateY( calc(var(--p-h1-size) / 2 * (-1)) );
-		font-size: var(--p-h1-size);
-		line-height: var(--p-h1-size);
-
-	}
-	.bead-entry{
-		margin: 0px var(--p-container-padding-min);
-		height: var(--p-bead-size-1);
-	}
-	.bead-size-1{
-		width: var(--p-bead-size-1);
-		height: var(--p-bead-size-1);
-	}
-	.bead-size-2{
-		width: var(--p-bead-size-2);
-		height: var(--p-bead-size-2);
-	}
-	.bead-size-3{
-		width: var(--p-bead-size-3);
-		height: var(--p-bead-size-3);
-	}
-	.bead-size-4{
-		width: var(--p-bead-size-4);
-		height: var(--p-bead-size-4);
-	}
-	.bead-size-5{
-		width: var(--p-bead-size-5);
-		height: var(--p-bead-size-5);
-	}
-	.bead-shadow-size-1{
-		width: calc(var(--p-bead-size-1) * 2);
-		height: calc(var(--p-bead-size-1) * 2);
-	}
-	.bead-shadow-size-2{
-		width: calc(var(--p-bead-size-2) * 2);
-		height: calc(var(--p-bead-size-2) * 2);
-	}
-	.bead-shadow-size-3{
-		width: calc(var(--p-bead-size-3) * 2);
-		height: calc(var(--p-bead-size-3) * 2);
-	}
-	.bead-shadow-size-4{
-		width: calc(var(--p-bead-size-4) * 2);
-		height: calc(var(--p-bead-size-4) * 2);
-	}
-	.bead-shadow-size-5{
-		width: calc(var(--p-bead-size-5) * 2);
-		height: calc(var(--p-bead-size-5) * 2);
+	:root {
+		--d-1: var(--p-d-1);
+		--d-2: var(--p-d-2);
+		--d-3: var(--p-d-3);
+		--d-4: var(--p-d-4);
+		--d-5: var(--p-d-5);
+		--padding-min: var(--p-padding-min);
+		--padding-med: var(--p-padding-med);
+		--padding-max: var(--p-padding-max);
+		--panel-height: var(--p-panel-height);
+		--h1-size: var(--p-h1-size);
 	}
 }
 /*smartphone landscape*/
 @media screen and (min-aspect-ratio: 1/1) and (max-height: 640px){
-	#container{
-		padding-top: var(--p-container-padding-min);
-		padding-bottom: var(--p-container-padding-max);
-	}
-	#panel{
-		height: var(--p-panel-height);
-		padding: 0px var(--p-container-padding-med);
-	}
-	.text-header{
-		top: calc( var(--p-panel-height) / 2);
-		transform: translateY( calc(var(--p-h1-size) / 2 * (-1)) );
-		font-size: var(--p-h1-size);
-		line-height: var(--p-h1-size);
-	}
-	.bead-entry{
-		margin: 0px var(--p-container-padding-med);
-		height: var(--p-bead-size-1);
-	}
-	.bead-size-1{
-		width: var(--p-bead-size-1);
-		height: var(--p-bead-size-1);
-	}
-	.bead-size-2{
-		width: var(--p-bead-size-2);
-		height: var(--p-bead-size-2);
-	}
-	.bead-size-3{
-		width: var(--p-bead-size-3);
-		height: var(--p-bead-size-3);
-	}
-	.bead-size-4{
-		width: var(--p-bead-size-4);
-		height: var(--p-bead-size-4);
-	}
-	.bead-size-5{
-		width: var(--p-bead-size-5);
-		height: var(--p-bead-size-5);
-	}
-	.bead-shadow-size-1{
-		width: calc(var(--p-bead-size-1) * 2);
-		height: calc(var(--p-bead-size-1) * 2);
-	}
-	.bead-shadow-size-2{
-		width: calc(var(--p-bead-size-2) * 2);
-		height: calc(var(--p-bead-size-2) * 2);
-	}
-	.bead-shadow-size-3{
-		width: calc(var(--p-bead-size-3) * 2);
-		height: calc(var(--p-bead-size-3) * 2);
-	}
-	.bead-shadow-size-4{
-		width: calc(var(--p-bead-size-4) * 2);
-		height: calc(var(--p-bead-size-4) * 2);
-	}
-	.bead-shadow-size-5{
-		width: calc(var(--p-bead-size-5) * 2);
-		height: calc(var(--p-bead-size-5) * 2);
+	:root {
+		--d-1: var(--p-d-1);
+		--d-2: var(--p-d-2);
+		--d-3: var(--p-d-3);
+		--d-4: var(--p-d-4);
+		--d-5: var(--p-d-5);
+		--padding-min: var(--p-padding-min);
+		--padding-med: var(--p-padding-med);
+		--padding-max: var(--p-padding-max);
+		--panel-height: var(--p-panel-height);
+		--h1-size: var(--p-h1-size);
 	}
 }
 /*tablet portrait*/
 @media screen and (max-aspect-ratio: 1/1) and (min-width: 640px){
-	#container{
-		padding-top: var(--t-container-padding-min);
-		padding-bottom: var(--t-container-padding-max);
-	}
-	#panel{
-		height: var(--t-panel-height);
-		padding: 0px var(--t-container-padding-min);
-	}
-	.text-header{
-		top: calc( var(--t-panel-height) / 2);
-		transform: translateY( calc(var(--t-h1-size) / 2 * (-1)) );
-		font-size: var(--t-h1-size);
-		line-height: var(--t-h1-size);
-
-	}
-	.bead-entry{
-		margin: 0px var(--t-container-padding-min);
-		height: var(--t-bead-size-1);
-	}
-	.bead-size-1{
-		width: var(--t-bead-size-1);
-		height: var(--t-bead-size-1);
-	}
-	.bead-size-2{
-		width: var(--t-bead-size-2);
-		height: var(--t-bead-size-2);
-	}
-	.bead-size-3{
-		width: var(--t-bead-size-3);
-		height: var(--t-bead-size-3);
-	}
-	.bead-size-4{
-		width: var(--t-bead-size-4);
-		height: var(--t-bead-size-4);
-	}
-	.bead-size-5{
-		width: var(--t-bead-size-5);
-		height: var(--t-bead-size-5);
-	}
-	.bead-shadow-size-1{
-		width: calc(var(--t-bead-size-1) * 2);
-		height: calc(var(--t-bead-size-1) * 2);
-	}
-	.bead-shadow-size-2{
-		width: calc(var(--t-bead-size-2) * 2);
-		height: calc(var(--t-bead-size-2) * 2);
-	}
-	.bead-shadow-size-3{
-		width: calc(var(--t-bead-size-3) * 2);
-		height: calc(var(--t-bead-size-3) * 2);
-	}
-	.bead-shadow-size-4{
-		width: calc(var(--t-bead-size-4) * 2);
-		height: calc(var(--t-bead-size-4) * 2);
-	}
-	.bead-shadow-size-5{
-		width: calc(var(--t-bead-size-5) * 2);
-		height: calc(var(--t-bead-size-5) * 2);
+	:root {
+		--d-1: var(--t-d-1);
+		--d-2: var(--t-d-2);
+		--d-3: var(--t-d-3);
+		--d-4: var(--t-d-4);
+		--d-5: var(--t-d-5);
+		--padding-min: var(--t-padding-min);
+		--padding-med: var(--t-padding-med);
+		--padding-max: var(--t-padding-max);
+		--panel-height: var(--t-panel-height);
+		--h1-size: var(--t-h1-size);
 	}
 }
 /*tablet landscape*/
 @media screen and (min-aspect-ratio: 1/1) and (min-height: 640px){
-	#container{
-		padding-top: var(--t-container-padding-min);
-		padding-bottom: var(--t-container-padding-max);
+	:root {
+		--d-1: var(--t-d-1);
+		--d-2: var(--t-d-2);
+		--d-3: var(--t-d-3);
+		--d-4: var(--t-d-4);
+		--d-5: var(--t-d-5);
+		--padding-min: var(--t-padding-min);
+		--padding-med: var(--t-padding-med);
+		--padding-max: var(--t-padding-max);
+		--panel-height: var(--t-panel-height);
+		--h1-size: var(--t-h1-size);
 	}
-	#panel{
-		height: var(--t-panel-height);
-		padding: 0px var(--t-container-padding-med);
-	}
-	.text-header{
-		top: calc( var(--t-panel-height) / 2);
-		transform: translateY( calc(var(--t-h1-size) / 2 * (-1)) );
-		font-size: var(--t-h1-size);
-		line-height: var(--t-h1-size);
+}
 
-	}
-	.bead-entry{
-		margin: 0px var(--t-container-padding-med);
-		height: var(--t-bead-size-1);
-	}
-	.bead-size-1{
-		width: var(--t-bead-size-1);
-		height: var(--t-bead-size-1);
-	}
-	.bead-size-2{
-		width: var(--t-bead-size-2);
-		height: var(--t-bead-size-2);
-	}
-	.bead-size-3{
-		width: var(--t-bead-size-3);
-		height: var(--t-bead-size-3);
-	}
-	.bead-size-4{
-		width: var(--t-bead-size-4);
-		height: var(--t-bead-size-4);
-	}
-	.bead-size-5{
-		width: var(--t-bead-size-5);
-		height: var(--t-bead-size-5);
-	}
-	.bead-shadow-size-1{
-		width: calc(var(--t-bead-size-1) * 2);
-		height: calc(var(--t-bead-size-1) * 2);
-	}
-	.bead-shadow-size-2{
-		width: calc(var(--t-bead-size-2) * 2);
-		height: calc(var(--t-bead-size-2) * 2);
-	}
-	.bead-shadow-size-3{
-		width: calc(var(--t-bead-size-3) * 2);
-		height: calc(var(--t-bead-size-3) * 2);
-	}
-	.bead-shadow-size-4{
-		width: calc(var(--t-bead-size-4) * 2);
-		height: calc(var(--t-bead-size-4) * 2);
-	}
-	.bead-shadow-size-5{
-		width: calc(var(--t-bead-size-5) * 2);
-		height: calc(var(--t-bead-size-5) * 2);
-	}
+/*variable definition*/
+#container{
+	padding-top: var(--padding-min);
+	padding-bottom: var(--padding-max);
+}
+#panel{
+	height: var(--panel-height);
+	padding: 0px var(--padding-min);
+}
+.text-header{
+	top: calc( var(--panel-height) / 2);
+	transform: translateY( calc(var(--h1-size) / 2 * (-1)) );
+	font-size: var(--h1-size);
+	line-height: var(--h1-size);
+
+}
+.bead-entry{
+	margin: 0px var(--padding-min);
+	height: var(--d-1);
+}
+.bead-size-1{
+	width: var(--d-1);
+	height: var(--d-1);
+}
+.bead-size-2{
+	width: var(--d-2);
+	height: var(--d-2);
+}
+.bead-size-3{
+	width: var(--d-3);
+	height: var(--d-3);
+}
+.bead-size-4{
+	width: var(--d-4);
+	height: var(--d-4);
+}
+.bead-size-5{
+	width: var(--d-5);
+	height: var(--d-5);
+}
+.bead-shadow-size-1{
+	width: calc(var(--d-1) * 2);
+	height: calc(var(--d-1) * 2);
+}
+.bead-shadow-size-2{
+	width: calc(var(--d-2) * 2);
+	height: calc(var(--d-2) * 2);
+}
+.bead-shadow-size-3{
+	width: calc(var(--d-3) * 2);
+	height: calc(var(--d-3) * 2);
+}
+.bead-shadow-size-4{
+	width: calc(var(--d-4) * 2);
+	height: calc(var(--d-4) * 2);
+}
+.bead-shadow-size-5{
+	width: calc(var(--d-5) * 2);
+	height: calc(var(--d-5) * 2);
 }

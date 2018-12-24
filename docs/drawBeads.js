@@ -1,5 +1,3 @@
-
-
 var COLORSET = [[180, 200, 190], [190, 24, 53], [217, 183, 37], [0, 91, 58], [0, 33, 157], [83, 39, 106]];
 var beads = {
 	property: []
@@ -13,12 +11,23 @@ var beads = {
 	color: 'rgba()', //color from type, alpha from intensity
 	filling: 'image',
 	rad: 'px', //from duration
-	center-x: 'px',
-	center-y: 'px',
+	x: 'px',
+	y: 'px',
 	*/
 }
 var rad_all = [];
 var DATA_LENGTH = 6; //date, day, spectrum, intensity, duration, note
+var SCREEN_STATE_ENUM = Object.freeze({
+	LIST: 1,
+	END: 2,
+	DESC: 3,
+	OVER: 4
+});
+var screenState;
+var old = {
+	scroll: '',
+	id: ''
+}
 var url_parameter = "https://spreadsheets.google.com/pub?key=1IqZWY3edz2fGNT8O3uciprX6oElkLu8Vm8-i33CMNyk&hl=kr&output=html";
 var googleSpreadsheet = new GoogleSpreadsheet();
 
@@ -30,6 +39,7 @@ var googleSpreadsheet = new GoogleSpreadsheet();
 
 
 $(document).ready(function(){
+	screenState = SCREEN_STATE_ENUM.LIST;
 	setCSS();
 	loadSheetData(googleSpreadsheet);
 	googleSpreadsheet.load(function(){
@@ -106,18 +116,20 @@ function putBeads(beadsObj){
 		item['color'] = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')';
 		item['filling'] = fill_image;
 		item['rad'] = rad_all[Math.max(0, item.duration - 1)]/2;
+		item['x'] = item.rad + Math.random()*120 + 'px';
 		//put beads
 		var obj_entry = $("<div class='bead-entry'></div>");
 		var obj_placeholder = $("<div class='bead-placeholder'></div>");
 		var obj_shadow = $("<div class='bead-shadow'></div>");
 		var obj_bead = $("<div class='bead-base'></div>");
+		$(obj_entry).attr('id', i);
 		$(obj_shadow).addClass('bead-shadow-size-' + Math.max(1, item.duration));
 		$(obj_bead).addClass('bead-size-' + Math.max(1, item.duration));
-		obj_entry.css('height', item.rad * 2 + 16 + 'px');
-		obj_placeholder.css('right', Math.random()*120+'px');
-		obj_shadow.css('background-color', item.color);
-		obj_bead.css('background-color', item.color);
-		obj_bead.css('background-image', "url('bead_base.png'), url('"+item.filling+"'), url('bead_glow.png')");
+		$(obj_entry).css('height', item.rad * 2 + 16 + 'px');
+		$(obj_placeholder).css('right', item.x);
+		$(obj_shadow).css('background-color', item.color);
+		$(obj_bead).css('background-color', item.color);
+		$(obj_bead).css('background-image', "url('bead_base.png'), url('"+item.filling+"'), url('bead_glow.png')");
 		//put beads
 		if(Date.parse(item.date) <= Date.now()){
 			$(obj_placeholder).append(obj_shadow);
@@ -138,7 +150,42 @@ function loadingEffect(){
 
 function clickToExpand(){
 	$(".bead-base").click(function(){
-		var entry = $(this).parentsUntil(".bead-entry");
-		$(entry).height($(window).height());
+		if(screenState == SCREEN_STATE_ENUM.LIST){
+			var entry = $(this).closest(".bead-entry");
+			var placeholder = $(this).closest(".bead-placeholder");
+			/* set 'old' value */
+			old.scroll = $('html, body').scrollTop();
+			old.id = $(entry).attr('id');
+			/* animate */
+			$(entry).animate({
+				'margin-top': rad_all[4]*4,
+				'height': $(window).height() - $('#panel').height()
+			}, 300);
+			$(placeholder).animate({
+				right: '50%'
+			}, 300);
+			//$(window).animate({scrollTop: $(entry).offset().top}, 300);
+			$('html, body').animate({
+				'scrollTop': $(entry).offset().top + rad_all[4]*4
+			}, 300, function(){
+				screenState = SCREEN_STATE_ENUM.END;
+				disableScroll();
+			});
+		}
+	});
+	$("body").click(function(){
+		if(screenState == SCREEN_STATE_ENUM.END){
+			var entry = $('#'+old.id);
+			console.log('#'+old.id);
+			$(entry).animate({
+				'margin-top': 0
+			}, 300);
+			$('html, body').animate({
+				'scrollTop': old.scroll
+			}, 300, function(){
+				screenState = SCREEN_STATE_ENUM.LIST;
+				enableScroll();
+			});
+		}
 	});
 }
