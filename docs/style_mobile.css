@@ -33,17 +33,39 @@
 /**********************
   style definition
   *********************/
+/*
 @import url('https://fonts.googleapis.com/css?family=Song+Myung');
+*/
+@import url('https://fonts.googleapis.com/css?family=Gothic+A1');
 
-
-
+body{
+	font-family: 'Gothic A1', sans-serif;
+	color: #222222;
+}
+h1{
+	position: relative;
+	color: #222222;
+	text-align: left;
+	font-weight: 400;
+	font-size: var(--h1-size);
+	margin-top: var(--padding-min);
+	margin-bottom: calc(var(--padding-min / 2));
+}
+p{
+	font-weight: 300;
+	font-size: var(--h1-size);
+	margin-bottom: var(--padding-min);
+	margin-top: calc(var(--padding-min / 2));
+}
+p.small{
+	font-size: calc( var(--h1-size) * 3 / 4 );
+}
 
 /**********************
   container definition
-  *********************/
+ **********************/
 body{
 	margin: 0;
-	font-family: 'Song Myung', serif;
 }
 #container{
 	position: relative;
@@ -51,6 +73,7 @@ body{
 	width: 100%;
 	box-sizing: border-box;
 	background-color: #e0d1ca;
+	overflow: hidden;
 }
 #container-bg{
 	position: fixed;
@@ -60,23 +83,21 @@ body{
 	height: 100vh;
 	background: linear-gradient(#faf0eb, #e0d1ca) fixed;
 }
-#panel::before{
-	z-index: -1;
-	-webkit-filter: blur(5px);
-	filter: blur(5px);
-	background-size: cover;
-	opacity: 0.5;
-}
-#panel{
+#panel, #note{
 	display: block;
 	position: fixed;
 	box-sizing: border-box;
-	bottom: 0;
 	vertical-align: middle;
 	width: 100%;
+	bottom: 0;
 	background-color: white;
 	/*background-color: rgba(224,209,202,0.8);
 	box-shadow: 0px -2px 4px rgba(0,0,0,0.05);*/
+}
+#panel{
+}
+#note{
+	visibility: hidden;
 }
 .bead-entry{
 	position: relative;
@@ -104,23 +125,35 @@ body{
 	margin: 0px;
 
 }
-.bead-base, .bead-shadow{
+.bead-base, .bead-filling, .bead-glow, .bead-shadow{
 	position: absolute;
 	display: block;
 	overflow: hidden;
+	background-repeat: no-repeat
 }
-.bead-base{
+.bead-base, .bead-filling, .bead-glow{
 	border-radius: 500px;
-	background-color: rgba(0,0,0,0.2);
-	background-image: url('bead_base.png'), url(''), url('bead_glow.png');
-	background-repeat: no-repeat, no-repeat, no-repeat;
-	background-blend-mode: overlay, normal, screen;
 	background-size: 100%;
 	right: 0;
 	-webkit-transform: translate(50%, -50%);
 	transform: translate(50%, -50%);
+	-webkit-transform-origin: center center;
+	transform-origin: center center;
 }
+.bead-base{
+	background-color: rgba(0,0,0,0.2);
+	background-image: url('bead_base.png');
+	background-blend-mode: overlay;
 
+}
+.bead-filling{
+	background-image: url('');
+
+}
+.bead-glow{
+	background-image: url('bead_glow.png');
+	background-blend-mode: screen;
+}
 .bead-shadow{
 	mix-blend-mode: multiply;
 	background-color: rgba(0,0,0,0.2);
@@ -207,6 +240,9 @@ body{
 #panel{
 	height: var(--panel-height);
 	padding: 0px var(--padding-min);
+}
+#note{
+	padding: 0 var(--padding-min);
 }
 .text-header{
 	top: calc( var(--panel-height) / 2);

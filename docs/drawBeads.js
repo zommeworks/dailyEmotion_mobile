@@ -1,21 +1,23 @@
 var COLORSET = [[180, 200, 190], [190, 24, 53], [217, 183, 37], [0, 91, 58], [0, 33, 157], [83, 39, 106]];
-var beads = {
-	property: []
-	/*
-	date: '',
-	day: '',
-	type: '',
-	intensity: '',
-	duration: '',
-	note: 'string',
-	color: 'rgba()', //color from type, alpha from intensity
-	filling: 'image',
-	rad: 'px', //from duration
-	x: 'px',
-	y: 'px',
-	*/
-}
-var rad_all = [];
+var beads = []; //beads object array
+	/*{
+		date: '',
+		day: '',
+		type: '',
+		intensity: '',
+		duration: '',
+		note: 'string',
+		color: 'rgba()', //color from type, alpha from intensity
+		filling: 'image',
+		rad: 'px', //from duration
+		deg: ''
+		x: 'px',
+		y: 'px',
+		z: '',
+		height: ''
+	}*/
+
+var rad_all = []; //total radius value
 var DATA_LENGTH = 6; //date, day, spectrum, intensity, duration, note
 var SCREEN_STATE_ENUM = Object.freeze({
 	LIST: 1,
@@ -43,9 +45,9 @@ $(document).ready(function(){
 	setCSS();
 	loadSheetData(googleSpreadsheet);
 	googleSpreadsheet.load(function(){
-		putBeads(beads.property);
+		putBeads(beads);
 		loadingEffect();
-		clickToExpand();
+		clickBeads();
 	});
 });
 
@@ -65,7 +67,7 @@ function loadSheetData(sheet){
 	sheet.url(url_parameter);
 	sheet.load(function(result) {
 		var tempObj = {};
-		var sheetIndex = [];
+		var sheetIndex = [];// name list of object properties
 		$.each(result.data, function(i, item){
 			var col = Math.round((i/DATA_LENGTH - Math.floor(i/DATA_LENGTH))*DATA_LENGTH);
 			if(Math.floor(i/DATA_LENGTH) == 0){
@@ -76,7 +78,7 @@ function loadSheetData(sheet){
 				tempObj[tempIndex] = item;
 				if( col === DATA_LENGTH - 1){
 					//update beads object
-					beads.property.push(tempObj);
+					beads.push(tempObj);
 					tempObj = {};
 				}
 			}
@@ -116,76 +118,134 @@ function putBeads(beadsObj){
 		item['color'] = 'rgba(' + rgba[0] + ',' + rgba[1] + ',' + rgba[2] + ',' + rgba[3] + ')';
 		item['filling'] = fill_image;
 		item['rad'] = rad_all[Math.max(0, item.duration - 1)]/2;
-		item['x'] = item.rad + Math.random()*120 + 'px';
+		item['deg'] = (0.5 - Math.random())*120;
+		item['x'] = item.rad + Math.random()*120;
 		//put beads
 		var obj_entry = $("<div class='bead-entry'></div>");
 		var obj_placeholder = $("<div class='bead-placeholder'></div>");
 		var obj_shadow = $("<div class='bead-shadow'></div>");
 		var obj_bead = $("<div class='bead-base'></div>");
+		var obj_filling = $("<div class='bead-filling'></div>");
+		var obj_glow = $("<div class='bead-glow'></div>");
 		$(obj_entry).attr('id', i);
 		$(obj_shadow).addClass('bead-shadow-size-' + Math.max(1, item.duration));
 		$(obj_bead).addClass('bead-size-' + Math.max(1, item.duration));
+		$(obj_filling).addClass('bead-size-' + Math.max(1, item.duration));
+		$(obj_glow).addClass('bead-size-' + Math.max(1, item.duration));
 		$(obj_entry).css('height', item.rad * 2 + 16 + 'px');
 		$(obj_placeholder).css('right', item.x);
 		$(obj_shadow).css('background-color', item.color);
 		$(obj_bead).css('background-color', item.color);
-		$(obj_bead).css('background-image', "url('bead_base.png'), url('"+item.filling+"'), url('bead_glow.png')");
+		//$(obj_bead).css('background-image', "url('bead_base.png'), url('"+item.filling+"'), url('bead_glow.png')");
+		$(obj_filling).css('background-image', "url('"+item.filling+"')");
+		$(obj_filling).css('transform', "translate(50%, -50%) rotate("+item.deg+"deg)");
 		//put beads
 		if(Date.parse(item.date) <= Date.now()){
 			$(obj_placeholder).append(obj_shadow);
 			$(obj_placeholder).append(obj_bead);
+			$(obj_placeholder).append(obj_filling);
+			$(obj_placeholder).append(obj_glow);
 			$(obj_entry).append(obj_placeholder);
 			$(obj_entry).appendTo('#container');
+			item['y'] = $(obj_placeholder).offset().top;
+			item['height'] = $(obj_entry).height();
+			item['z'] = $(obj_entry).css('z-index');
 		}
 	});
 }
 
 
 function loadingEffect(){
-	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2018년의 어느 날들</h><\/div>";
+	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2018년의 어느 날들</h1><\/div>";
+	var note = "<div id=\"note\"><h1></h1><p></p><\/div>";
 	window.scrollTo(0,$(document).height());
-	$(footer).appendTo('#container');
+	$(note).appendTo('body');
+	$(footer).appendTo('body');
 }
 
-
-function clickToExpand(){
-	$(".bead-base").click(function(){
+function clickBeads(){
+	$(".bead-glow").click(function(){
+		var target = $(this);
 		if(screenState == SCREEN_STATE_ENUM.LIST){
-			var entry = $(this).closest(".bead-entry");
-			var placeholder = $(this).closest(".bead-placeholder");
-			/* set 'old' value */
-			old.scroll = $('html, body').scrollTop();
-			old.id = $(entry).attr('id');
-			/* animate */
-			$(entry).animate({
-				'margin-top': rad_all[4]*4,
-				'height': $(window).height() - $('#panel').height()
-			}, 300);
-			$(placeholder).animate({
-				right: '50%'
-			}, 300);
-			//$(window).animate({scrollTop: $(entry).offset().top}, 300);
-			$('html, body').animate({
-				'scrollTop': $(entry).offset().top + rad_all[4]*4
-			}, 300, function(){
-				screenState = SCREEN_STATE_ENUM.END;
-				disableScroll();
-			});
+			beadsExpand(target);
 		}
 	});
 	$("body").click(function(){
 		if(screenState == SCREEN_STATE_ENUM.END){
-			var entry = $('#'+old.id);
-			console.log('#'+old.id);
-			$(entry).animate({
-				'margin-top': 0
-			}, 300);
-			$('html, body').animate({
-				'scrollTop': old.scroll
-			}, 300, function(){
-				screenState = SCREEN_STATE_ENUM.LIST;
-				enableScroll();
-			});
+			beadsList();
 		}
+	});
+
+}
+function beadsExpand(target){
+	var entry = $(target).closest(".bead-entry");
+	var placeholder = $(target).closest(".bead-placeholder");
+	/* set 'old' value */
+	old.scroll = $('html, body').scrollTop();
+	old.id = $(entry).attr('id');
+	/* animate */
+	showNote();
+	$(entry).animate({
+		'margin-top': rad_all[4]*4,
+		'height': $(window).height() - $('#panel').height()
+	}, 300);
+	$(placeholder).animate({
+		right: '50%'
+	}, 300);
+	$('html, body').animate({
+		'scrollTop': $(entry).offset().top + rad_all[4]*4
+	}, 300, function(){
+		screenState = SCREEN_STATE_ENUM.END;
+		disableScroll();
+	});
+}
+
+function beadsList(){
+	var entry = $('#'+old.id);
+	var placeholder = entry.children('.bead-placeholder');
+	hideNote();
+	$(entry).animate({
+		'margin-top': 0,
+		'height': beads[old.id].height
+	}, 300);
+	$(placeholder).animate({
+		right: beads[old.id].x
+	}, 300);
+	$('html, body').animate({
+		'scrollTop': old.scroll
+	}, 300, function(){
+		screenState = SCREEN_STATE_ENUM.LIST;
+		enableScroll();
+	});
+}
+
+function showNote(){
+	var panel = $('#panel');
+	var note = $('#note');
+	$(note).children('h1').text(beads[old.id].date+". "+beads[old.id].day);
+	$(note).children('p').text(beads[old.id].note);
+	$(note).css('bottom', 0 - note.height());
+	note.css('visibility', 'visible');
+	panel.animate({
+		'bottom': 0 - panel.height()
+	}, 200, function(){
+		note.animate({
+			'bottom': 0
+		}, 300);
+	});
+}
+
+function hideNote(){
+	var panel = $('#panel');
+	var note = $('#note');
+	console.log(note.height());
+	note.animate({
+		'bottom': 0 - note.height()
+	}, 200, function(){
+		panel.animate({
+			'bottom': 0
+		}, 300, function(){
+			note.css('visibility', 'hidden');
+		});
 	});
 }
