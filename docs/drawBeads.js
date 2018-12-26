@@ -53,11 +53,11 @@ $(document).ready(function(){
 
 function setCSS(){
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-		console.log('mobile browser');
+		//console.log('mobile browser');
 	 	$("head").append("<link rel='stylesheet' href='style_mobile.css' type='text/css' media='screen' />");
 	}
 	else{
-		console.log('pc browser');
+		//console.log('pc browser');
 		$("head").append("<link rel='stylesheet' href='style_mobile.css' type='text/css' media='screen' />");
 	}
 }
@@ -181,13 +181,13 @@ function beadsExpand(target){
 	var entry = $(target).closest(".bead-entry");
 	var placeholder = $(target).closest(".bead-placeholder");
 	/* set 'old' value */
-	old.scroll = $('html, body').scrollTop();
+	old.scroll = $(window).scrollTop();
 	old.id = $(entry).attr('id');
 	/* animate */
 	showNote();
 	$(entry).animate({
 		'margin-top': rad_all[4]*4,
-		'height': $(window).height() - $('#panel').height()
+		'height': $(window).height() - $('#note').height()
 	}, 300);
 	$(placeholder).animate({
 		right: '50%'
@@ -238,7 +238,6 @@ function showNote(){
 function hideNote(){
 	var panel = $('#panel');
 	var note = $('#note');
-	console.log(note.height());
 	note.animate({
 		'bottom': 0 - note.height()
 	}, 200, function(){

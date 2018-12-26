@@ -1,0 +1,8 @@
+<IfModule>
+
+#RewriteEngine On
+#RewriteCond %{HTTP_HOST} ^zommehow.zomme.net [NC]
+#RewriteRule ^(.*)$ http://zomme.net/zommehow$1 [L,R=301]
+#RedirectMatch 301 ^/zommehow/(.*)$ http://zommehow.zomme.net/$1
+
+</IfModule>
