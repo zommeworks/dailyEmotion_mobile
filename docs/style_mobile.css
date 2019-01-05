@@ -26,6 +26,13 @@
 	--t-padding-max: 160px;
 	--t-panel-height: 100px;
 	--t-h1-size: 24px;
+
+	/* color varibles */
+	--c1: rgba(190, 24, 53, 1);
+	--c2: rgba(217, 183, 37, 1);
+	--c3: rgba(0, 91, 58, 1);
+	--c4: rgba(0, 33, 157, 1);
+	--c5: rgba(83, 39, 106, 1);
 }
 
 
@@ -60,7 +67,30 @@ p{
 p.small{
 	font-size: calc( var(--h1-size) * 3 / 4 );
 }
+@keyframes color-change {
+	0% {background-color: var(--c1);}
+	30% {background-color: var(--c2);}
+	50% {background-color: var(--c3);}
+	70% {background-color: var(--c4);}
+	85% {background-color: var(--c5);}
+	100% {background-color: var(--c1);}
+}
 
+@keyframes blur {
+	from {
+		filter: blur(0);
+		-webkit-filter: blur(0);
+	}
+	to {
+		filter: blur(20px);
+		-webkit-filter: blur(40px);
+	}
+}
+.effect-blur{
+	animation-name: blur;
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+}
 /**********************
   container definition
  **********************/
@@ -164,7 +194,23 @@ body{
 	-webkit-transform: translate(25%, -25%);
 	transform: translate(25%, -25%);
 }
-
+#help{
+	display: inline-block;
+	position: absolute;
+	right: var(--padding-min);
+	bottom: calc(var(--panel-height)/4);
+	width: calc(var(--panel-height)/2);
+	height: calc(var(--panel-height)/2);
+	border-radius: 200px;
+	animation-name: color-change;
+	animation-duration: 5s;
+	animation-iteration-count: infinite;
+	text-align: center;
+	vertical-align: middle;
+	line-height: calc(var(--panel-height)/2);
+	font-size: var(--h1-size);
+	color: white;
+}
 
 
 /*******************

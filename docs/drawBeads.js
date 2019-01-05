@@ -48,6 +48,7 @@ $(document).ready(function(){
 		putBeads(beads);
 		loadingEffect();
 		clickBeads();
+		clickHelp();
 	});
 });
 
@@ -156,7 +157,7 @@ function putBeads(beadsObj){
 
 
 function loadingEffect(){
-	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2018년의 어느 날들</h1><\/div>";
+	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2018년의 어느 날들</h1><div id=\"help\">?<\/div><\/div>";
 	var note = "<div id=\"note\"><h1></h1><p></p><\/div>";
 	window.scrollTo(0,$(document).height());
 	$(note).appendTo('body');
@@ -246,5 +247,11 @@ function hideNote(){
 		}, 300, function(){
 			note.css('visibility', 'hidden');
 		});
+	});
+}
+
+function clickHelp(){
+	$('#help').click(function(){
+		$('#container').addClass('effect-blur');
 	});
 }
