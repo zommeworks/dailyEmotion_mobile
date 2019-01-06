@@ -37,6 +37,11 @@
 	/*fundamentals*/
 	--cbox-w: 33.33vw;
 	--cbox-wmax: 200;
+
+	/*animations*/
+	--effect-blur: blur 0.5s forwards;
+	--effect-fadein: fadein 1.5s forwards;
+	--effect-panel-up: panel-up 1s forwards;
 }
 
 
@@ -133,14 +138,35 @@ p.small{
 		-webkit-filter: blur(0);
 	}
 	to {
-		filter: blur(20px);
+		filter: blur(40px);
 		-webkit-filter: blur(40px);
 	}
 }
-.effect-blur{
-	animation-name: blur;
-	animation-duration: 0.5s;
-	animation-fill-mode: forwards;
+@keyframes fadein {
+	from {
+		filter: blur(40px);
+		-webkit-filter: blur(40px);
+		opacity: 0;
+	}
+	to {
+		filter: blur(0);
+		-webkit-filter: blur(0);
+		opacity: 1;
+	}
+}
+@keyframes panel-up {
+	from {
+		bottom: -100px;
+	}
+	to {
+		bottom: 0;
+	}
+}
+.container-effect{
+	animation: '';
+}
+.effect-fadein{
+	animation: var(--effect-fadein);
 }
 /**********************
   container definition

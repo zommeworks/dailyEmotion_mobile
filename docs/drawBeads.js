@@ -159,10 +159,12 @@ function putBeads(beadsObj){
 function loadingEffect(){
 	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2018년의 어느 날들</h1><div id=\"help\">?<\/div><\/div>";
 	var note = "<div id=\"note\"><h1></h1><p></p><\/div>";
+	$('#container').css('animation', 'var(--effect-fadein) running');
 	window.scrollTo(0,$(document).height());
 	$(note).appendTo('body');
 	$(footer).appendTo('body');
 	$('#spinner').hide();
+	$('#panel').css('animation', 'var(--effect-panel-up) running');
 }
 
 function clickBeads(){
@@ -253,6 +255,7 @@ function hideNote(){
 
 function clickHelp(){
 	$('#help').click(function(){
-		$('#container').addClass('effect-blur');
+		$('#container').css('animation', 'var(--effect-blur) running');
+		$('#panel').css('animation', 'var(--effect-blur) running');
 	});
 }
