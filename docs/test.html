@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style media="screen" type="text/css">
+      :root {
+        --cbox-w: 33.33vw;
+      }
+      #spinner {
+        width: var(--cbox-w);
+        height: var(--cbox-w);
+        background-color: silver;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="spinner">
+    </canvas>
+    <script type="text/javascript">
+      var spinner = document.getElementById('spinner');
+      var ctx = [];
+      var rad = spinner.height/3;
+      var dotWidth = spinner.width/16;
+      for(i = 0; i < 3; i++){
+        ctx.push(spinner.getContext('2d'));
+      }
+      drawSpinnerDots(ctx);
+
+      function drawSpinnerDots(ctx){
+        $.each(ctx, function(i, item){
+          if(i == 0){
+            item.translate(spinner.width/2 - dotWidth*2, spinner.height/6);
+          }
+          else{
+            item.translate(dotWidth*2, 0);
+          }
+          item.moveTo(0,rad);
+          item.beginPath();
+          item.arc(0, 0, dotWidth, 0, 2*Math.PI);
+          item.fillStyle = '#222222';
+          item.fill();
+        });
+      }
+    </script>
+  </body>
+</html>
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href='style_mobile.css' type='text/css' media='screen' />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div id="spinner">
+      <div class="spinner-coord">
+        <div id="sp-1" class="spinner-point">
+          <div class="spinner-dot"></div>
+        </div>
+        <div id="sp-2" class="spinner-point">
+          <div class="spinner-dot"></div>
+        </div>
+        <div id="sp-3" class="spinner-point">
+          <div class="spinner-dot"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
