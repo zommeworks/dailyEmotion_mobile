@@ -162,6 +162,7 @@ function loadingEffect(){
 	window.scrollTo(0,$(document).height());
 	$(note).appendTo('body');
 	$(footer).appendTo('body');
+	$('#spinner').hide();
 }
 
 function clickBeads(){

@@ -91,36 +91,40 @@ p.small{
   100% {transform: rotate(-30deg);}
 }
 @keyframes spinner-c1 {
-	0%    {}
-	12.5% {}
-	25%   {}
-	37.5% {background-color: var(--c1);}
-	50%   {background-color: var(--c1);}
-	62.5% {background-color: var(--c3);}
-	75%   {background-color: var(--c3);}
-	87.5% {background-color: var(--c3);}
-	100%  {background-color: var(--c3);}
+	0%    {background-color: var(--c1);}
+	12.5% {background-color: var(--c1);} /* hit3 */
+	25%   {background-color: var(--c3);}
+	37.5% {background-color: var(--c3);} /* hit1 */
+	50%   {background-color: var(--c3);}
+	62.5% {background-color: var(--c3);} /* hit3 */
+	75%   {background-color: var(--c1);}
+	87.5% {background-color: var(--c1);} /* hit1 */
+	100%  {background-color: var(--c1);}
 }
 @keyframes spinner-c2 {
-	0%    {}
-	12.5% {} /* up */
-	25%   {} /* hit */
-	37.5% {background-color: var(--c1);}
-	50%   {}
-	62.5% {} /* up */
-	75%   {background-color: var(--c1);} /* hit */
-	87.5% {background-color: var(--c3);}
-	100%  {}
+	0%    {background-color: var(--c1);}
+	12.5% {background-color: var(--c1);} /* hit3 */
+	13.5% {background-color: var(--c3);} /* hit3 */
+	25%   {background-color: var(--c3);}
+	37.5% {background-color: var(--c3);} /* hit1 */
+	38.5% {background-color: var(--c3);} /* hit1 */
+	50%   {background-color: var(--c3);}
+	62.5% {background-color: var(--c3);} /* hit3 */
+	63.5% {background-color: var(--c1);} /* hit3 */
+	75%   {background-color: var(--c1);}
+	87.5% {background-color: var(--c1);} /* hit1 */
+	88.5% {background-color: var(--c1);} /* hit1 */
+	100%  {background-color: var(--c1);}
 }
 @keyframes spinner-c3 {
-	0%    {}
-	12.5% {background-color: var(--c1);} /* up */
-	25%   {background-color: var(--c1);} /* hit */
-	37.5% {background-color: var(--c1);}
+	0%    {background-color: var(--c3);}
+	12.5% {background-color: var(--c3);} /* hit3 */
+	25%   {background-color: var(--c3);}
+	37.5% {background-color: var(--c3);} /* hit1 */
 	50%   {background-color: var(--c1);}
-	62.5% {background-color: var(--c3);} /* up */
-	75%   {background-color: var(--c3);} /* hit */
-	87.5% {background-color: var(--c3);}
+	62.5% {background-color: var(--c1);} /* hit3 */
+	75%   {background-color: var(--c1);}
+	87.5% {background-color: var(--c1);} /* hit1 */
 	100%  {background-color: var(--c3);}
 }
 @keyframes blur {
@@ -300,7 +304,7 @@ body{
   border-radius: 200px;
   margin: 0;
   padding: 0;
-	animation: color-change 6s ease infinite;
+	/*animation: color-change 6s ease infinite;*/
 }
 #sp-1{
 	animation: spinner1 0.6s ease-in infinite alternate-reverse;
@@ -309,6 +313,15 @@ body{
 #sp-3{
 	animation: spinner3 0.6s ease-out infinite alternate-reverse;
 
+}
+#spd-1{
+		animation: spinner-c1 2.4s infinite;
+}
+#spd-2{
+		animation: spinner-c2 2.4s infinite;
+}
+#spd-3{
+		animation: spinner-c3 2.4s infinite;
 }
 /*******************
  * size definition *
