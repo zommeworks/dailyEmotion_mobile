@@ -39,6 +39,9 @@ var googleSpreadsheet = new GoogleSpreadsheet();
  READ JSON FILE
 ***************/
 
+$(document).on('contextmenu', function(){
+	return false;
+});
 
 $(document).ready(function(){
 	screenState = SCREEN_STATE_ENUM.LIST;
@@ -189,6 +192,7 @@ function beadsExpand(target){
 	old.id = $(entry).attr('id');
 	/* animate */
 	showNote();
+	setScrollBehavior('body', 'hidden');
 	$(entry).animate({
 		'margin-top': rad_all[4]*4,
 		'height': $(window).height() - $('#note').height()
@@ -200,7 +204,6 @@ function beadsExpand(target){
 		'scrollTop': $(entry).offset().top + rad_all[4]*4
 	}, 300, function(){
 		screenState = SCREEN_STATE_ENUM.END;
-		disableScroll();
 	});
 }
 
@@ -208,6 +211,7 @@ function beadsList(){
 	var entry = $('#'+old.id);
 	var placeholder = entry.children('.bead-placeholder');
 	hideNote();
+	$('body').css('overflow', 'auto');
 	$(entry).animate({
 		'margin-top': 0,
 		'height': beads[old.id].height
@@ -219,7 +223,7 @@ function beadsList(){
 		'scrollTop': old.scroll
 	}, 300, function(){
 		screenState = SCREEN_STATE_ENUM.LIST;
-		enableScroll();
+		setScrollBehavior('body', 'auto');
 	});
 }
 
@@ -253,8 +257,13 @@ function hideNote(){
 	});
 }
 
+function setScrollBehavior(target, behavior){
+	$(target).css('overflow-y', bahavior);
+}
+
 function clickHelp(){
 	$('#help').click(function(){
+		$('body').css('overflow', 'hidden');
 		$('#container').css('animation', 'var(--effect-blur) running');
 		$('#panel').css('animation', 'var(--effect-blur) running');
 	});

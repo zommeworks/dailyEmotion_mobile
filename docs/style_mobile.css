@@ -162,17 +162,29 @@ p.small{
 		bottom: 0;
 	}
 }
-.container-effect{
-	animation: '';
-}
-.effect-fadein{
-	animation: var(--effect-fadein);
-}
 /**********************
   container definition
  **********************/
+ ::-webkit-scrollbar {
+   width: 0px;
+ }
+
 body{
 	margin: 0;
+	overflow-x: hidden;
+	-webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none;   /* Chrome/Safari/Opera */
+  -khtml-user-select: none;    /* Konqueror */
+  -moz-user-select: none;      /* Firefox */
+  -ms-user-select: none;       /* Internet Explorer/Edge*/
+   user-select: none;          /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+#screen-beads{
+	width: 100vw;
+	height: 100vh;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 #container{
 	position: relative;
@@ -260,6 +272,7 @@ body{
 .bead-glow{
 	background-image: url('bead_glow.png');
 	background-blend-mode: screen;
+	cursor: pointer;
 }
 .bead-shadow{
 	mix-blend-mode: multiply;
@@ -422,6 +435,7 @@ body{
 #panel{
 	height: var(--panel-height);
 	padding: 0px var(--padding-min);
+	cursor: pointer;
 }
 #note{
 	padding: 0 var(--padding-min);
