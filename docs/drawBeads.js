@@ -197,9 +197,8 @@ function beadsExpand(target){
 		'margin-top': rad_all[4]*4,
 		'height': $(window).height() - $('#note').height()
 	}, 300);
-	$(placeholder).animate({
-		right: '50%'
-	}, 300);
+	//setAnimation(entry, 'var(--effect-entry-expand)');
+	setAnimation(placeholder, 'var(--effect-bead-center)');
 	$('html, body').animate({
 		'scrollTop': $(entry).offset().top + rad_all[4]*4
 	}, 300, function(){
@@ -216,9 +215,7 @@ function beadsList(){
 		'margin-top': 0,
 		'height': beads[old.id].height
 	}, 300);
-	$(placeholder).animate({
-		right: beads[old.id].x
-	}, 300);
+	setAnimation(placeholder, 'var(--effect-bead-back)');
 	$('html, body').animate({
 		'scrollTop': old.scroll
 	}, 300, function(){
@@ -258,13 +255,31 @@ function hideNote(){
 }
 
 function setScrollBehavior(target, behavior){
-	$(target).css('overflow-y', bahavior);
+	$(target).css('overflow-y', behavior);
 }
 
 function clickHelp(){
 	$('#help').click(function(){
-		$('body').css('overflow', 'hidden');
-		$('#container').css('animation', 'var(--effect-blur) running');
-		$('#panel').css('animation', 'var(--effect-blur) running');
+		setScrollBehavior('body', 'hidden');
+		setAnimation('#container', 'var(--effect-blur)');
+		setAnimation('#panel', 'var(--effect-blur)');
+		//$('#container').css('animation', 'var(--effect-blur) running');
+		//$('#panel').css('animation', 'var(--effect-blur) running');
 	});
+}
+
+function setAnimation(obj, behavior){
+	$(obj).css('animation', null);
+  window.requestAnimationFrame(function(time) {
+    window.requestAnimationFrame(function(time) {
+      $(obj).css('animation', behavior);
+    });
+  });
+	/*
+	$(obj).on('webkitAnimationEnd oanimationend msAnimationEnd animationend', function(e){
+		if(resetAnimation){
+			$(obj).css('animation', '');
+		}
+	});
+	*/
 }
