@@ -79,6 +79,10 @@ p{
 p.small{
 	font-size: calc( var(--h1-size) * 3 / 4 );
 }
+.transition-height {
+	transition: height 0.3s ease, margin-top 0.3s ease;
+	-webkit-transition: height 0.3s ease, margin-top 0.3s ease;
+}
 @keyframes color-change {
 	0% {background-color: var(--c1);}
 	30% {background-color: var(--c2);}
@@ -170,14 +174,7 @@ p.small{
 	from {}
 	to {right: 50%;}
 }
-/**********************
-  container definition
- **********************/
- ::-webkit-scrollbar {
-   width: 0px;
- }
-
- @keyframes bead-back {
+@keyframes bead-back {
  	from {}
  	to {right: 50%;}
  }
@@ -256,6 +253,8 @@ body{
 	position: relative;
 	display: block;
 	width: auto;
+	transition: height 0.3s ease, margin-top 0.3s ease;
+	-webkit-transition: height 0.3s ease, margin-top 0.3s ease;
 }
 .bead-placeholder{
 	position: absolute;

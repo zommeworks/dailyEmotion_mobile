@@ -187,17 +187,23 @@ function clickBeads(){
 function beadsExpand(target){
 	var entry = $(target).closest(".bead-entry");
 	var placeholder = $(target).closest(".bead-placeholder");
+	var newValue = {
+		'm': rad_all[4]*4,
+		'h': $(window).height() - $('#note').height()
+	}
 	/* set 'old' value */
 	old.scroll = $(window).scrollTop();
 	old.id = $(entry).attr('id');
 	/* animate */
 	showNote();
 	setScrollBehavior('body', 'hidden');
+	/*
 	$(entry).animate({
 		'margin-top': rad_all[4]*4,
 		'height': $(window).height() - $('#note').height()
 	}, 300);
-	//setAnimation(entry, 'var(--effect-entry-expand)');
+	*/
+	$(entry).css({'margin-top': newValue.m, 'margin-bottom': newValue.m, 'height': newValue.h});
 	setAnimation(placeholder, 'var(--effect-bead-center)');
 	$('html, body').animate({
 		'scrollTop': $(entry).offset().top + rad_all[4]*4
@@ -211,10 +217,13 @@ function beadsList(){
 	var placeholder = entry.children('.bead-placeholder');
 	hideNote();
 	$('body').css('overflow', 'auto');
+	/*
 	$(entry).animate({
 		'margin-top': 0,
 		'height': beads[old.id].height
 	}, 300);
+	*/
+	$(entry).css({'margin-top': 0, 'margin-bottom': 0, 'height': beads[old.id].height});
 	setAnimation(placeholder, 'var(--effect-bead-back)');
 	$('html, body').animate({
 		'scrollTop': old.scroll
