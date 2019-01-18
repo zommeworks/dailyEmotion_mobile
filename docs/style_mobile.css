@@ -102,41 +102,19 @@ p.small{
   50%  {transform: rotate(0deg);}
   100% {transform: rotate(-30deg);}
 }
+
 @keyframes spinner-c1 {
 	0%    {background-color: var(--c1);}
-	12.5% {background-color: var(--c1);} /* hit3 */
-	25%   {background-color: var(--c3);}
-	37.5% {background-color: var(--c3);} /* hit1 */
-	50%   {background-color: var(--c3);}
-	62.5% {background-color: var(--c3);} /* hit3 */
-	75%   {background-color: var(--c1);}
-	87.5% {background-color: var(--c1);} /* hit1 */
 	100%  {background-color: var(--c1);}
 }
 @keyframes spinner-c2 {
 	0%    {background-color: var(--c1);}
-	12.5% {background-color: var(--c1);} /* hit3 */
-	13.5% {background-color: var(--c3);} /* hit3 */
 	25%   {background-color: var(--c3);}
-	37.5% {background-color: var(--c3);} /* hit1 */
-	38.5% {background-color: var(--c3);} /* hit1 */
-	50%   {background-color: var(--c3);}
-	62.5% {background-color: var(--c3);} /* hit3 */
-	63.5% {background-color: var(--c1);} /* hit3 */
 	75%   {background-color: var(--c1);}
-	87.5% {background-color: var(--c1);} /* hit1 */
-	88.5% {background-color: var(--c1);} /* hit1 */
 	100%  {background-color: var(--c1);}
 }
 @keyframes spinner-c3 {
 	0%    {background-color: var(--c3);}
-	12.5% {background-color: var(--c3);} /* hit3 */
-	25%   {background-color: var(--c3);}
-	37.5% {background-color: var(--c3);} /* hit1 */
-	50%   {background-color: var(--c1);}
-	62.5% {background-color: var(--c1);} /* hit3 */
-	75%   {background-color: var(--c1);}
-	87.5% {background-color: var(--c1);} /* hit1 */
 	100%  {background-color: var(--c3);}
 }
 @keyframes blur {
@@ -390,7 +368,7 @@ body{
 		animation: spinner-c1 2.4s infinite;
 }
 #spd-2{
-		animation: spinner-c2 2.4s infinite;
+		animation: spinner-c2 1.2s step-start infinite;
 }
 #spd-3{
 		animation: spinner-c3 2.4s infinite;
