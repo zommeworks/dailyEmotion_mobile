@@ -42,9 +42,9 @@
 	--effect-blur: blur 0.5s forwards;
 	--effect-fadein: fadein 1.5s forwards;
 	--effect-panel-up: panel-up 1s forwards;
-	--effect-bead-center: bead-center 0.3s ease-in-out forwards;
-	--effect-bead-back: bead-back 0.3s ease-in-out forwards reverse;
-	--effect-entry-expand: entry-expand 0.3s ease-in-out forwards;
+	--effect-bead-center: bead-center 0.3s linear forwards;
+	--effect-bead-back: bead-back 0.3s linear forwards reverse;
+	--effect-entry-expand: entry-expand 0.3s linear forwards;
 }
 
 
@@ -159,14 +159,14 @@ p.small{
 @keyframes entry-expand {
 	from {}
 	to {
-		margin-top: var(--d-5);
+		/*margin-top: var(--d-5);*/
 		height: 200px;
 	}
 }
 @keyframes entry-shrink {
 	from {}
 	to {
-		margin-top: var(--d-5);
+		/*margin-top: var(--d-5);*/
 		height: 200px;
 	}
 }

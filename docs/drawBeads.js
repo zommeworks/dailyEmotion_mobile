@@ -203,45 +203,22 @@ function beadsExpand(target){
 	old.id = $(entry).attr('id');
 	old.targetOffset = $(entry).offset().top;
 	old.h = $(entry).height();
-	/* local constant definition */
-	const d = newValue.h/2 - old.h/2 + old.scroll - old.targetOffset;
-	/* animate margin */
+	/* animate */
 	showNote();
-	$(entry).css({'margin-top': newValue.m, 'margin-bottom': newValue.m, 'height': newValue.h});
-	setAnimation(placeholder, 'var(--effect-bead-center)');
-	/* animate scroll */
-	var intervalCount = 0;
-	var currentY;
-	var newScrollTop;
-	currentY = old.targetOffset + old.h/2 - old.scroll; //initialize y value
-	setInterval(function(){
-		if(intervalCount < 30){
-			currentY += d / 30;
-			newScrollTop = $(placeholder).offset().top - currentY;
-			$(window).scrollTop(newScrollTop);
-			intervalCount++;
-		}
-		else{
-			setScrollBehavior('body', 'hidden');
-			screenState = SCREEN_STATE_ENUM.END;
-			clearInterval();
-		}
-	}, 10);
+	setScrollBehavior('body', 'hidden');
 	/*
 	$(entry).animate({
 		'margin-top': rad_all[4]*4,
 		'height': $(window).height() - $('#note').height()
 	}, 300);
 	*/
-	/*
 	$(entry).css({'margin-top': newValue.m, 'margin-bottom': newValue.m, 'height': newValue.h});
 	setAnimation(placeholder, 'var(--effect-bead-center)');
 	$('html, body').animate({
 		'scrollTop': $(entry).offset().top + newValue.m
-	}, 300, function(){
+	}, 300, 'linear', function(){
 		screenState = SCREEN_STATE_ENUM.END;
 	});
-	*/
 }
 
 function beadsList(){
