@@ -16,7 +16,7 @@ var beads = []; //beads object array
 		z: '',
 		height: ''
 	}*/
-
+var rexpDay = /01$/;
 var rad_all = []; //total radius value
 var DATA_LENGTH = 6; //date, day, spectrum, intensity, duration, note
 var SCREEN_STATE_ENUM = Object.freeze({
@@ -59,7 +59,6 @@ $(document).ready(function(){
 		loadingEffect();
 		clickBeads();
 		clickHelp();
-		freezeScroll();
 	});
 });
 
@@ -111,19 +110,27 @@ function putBeads(beadsObj){
 		//retrieve color and fill image
 		var rgba;
 		var opacity = 0.4;
-		var fill_image = "fill_";
-		if(item.spectrum > 0){
-			opacity = 0.8 - 0.15 * Math.max(0, item.intensity-1);
-			fill_image += item.spectrum + "_";
-			if(item.intensity < 3){
-				fill_image += "1.png";
-			}
-			else{
-				fill_image += Math.round(Math.random() * 2 + 1) + ".png";
-			}
+		var fill_image;
+		console.log(rexpDay.test(item.date));
+		if(rexpDay.test(item.date)){ //first day test
+			fill_image = item.date.slice(5,7)+".png";
+			console.log(fill_image);
 		}
 		else{
-			fill_image += Math.round(Math.random() * 4 + 1) + "_" + Math.round(Math.random() + 2) + ".png";
+			fill_image = "fill_";
+			if(item.spectrum > 0){
+				opacity = 0.8 - 0.15 * Math.max(0, item.intensity-1);
+				fill_image += item.spectrum + "_";
+				if(item.intensity < 3){
+					fill_image += "1.png";
+				}
+				else{
+					fill_image += Math.round(Math.random() * 2 + 1) + ".png";
+				}
+			}
+			else{
+				fill_image += Math.round(Math.random() * 4 + 1) + "_" + Math.round(Math.random() + 2) + ".png";
+			}
 		}
 		rgba = [COLORSET[item.spectrum][0], COLORSET[item.spectrum][1], COLORSET[item.spectrum][2], opacity];
 		// set color and fill image
@@ -177,7 +184,7 @@ function loadingEffect(){
 	$('#spinner').hide();
 	setTimeout(function(){
 		$('#panel').addClass('show');
-	}, 100);
+	}, 200);
 	//$('#panel').css('animation', 'var(--effect-panel-up) running');
 }
 
@@ -275,21 +282,6 @@ function beadsList(){
 			clearInterval(item);
 		});
 	}, 50*(removeList.length+1));
-	/*
-	$(entry).animate({
-		'margin-top': 0,
-		'height': beads[old.id].height
-	}, 300);
-	*/
-	//$(entry).css({'margin-top': 0, 'margin-bottom': 0, 'height': beads[old.id].height});
-	/*
-	$('html, body').animate({
-		'scrollTop': old.scroll
-	}, 300, function(){
-		screenState = SCREEN_STATE_ENUM.LIST;
-		setScrollBehavior('body', 'auto');
-	});
-	*/
 }
 
 function showNote(){
@@ -297,7 +289,6 @@ function showNote(){
 	var note = $('#note');
 	$(note).children('h1').text(beads[old.id].date+". "+beads[old.id].day);
 	$(note).children('p').text(beads[old.id].note);
-	//$(note).css('bottom', panel.height - note.height);
 	$(panel).addClass('hide');
 	$(note).addClass('visible');
 	setTimeout(function(){
@@ -316,17 +307,6 @@ function hideNote(){
 			$(note).removeClass('visible');
 		},300);
 	}, 300);
-	/*
-	note.animate({
-		'bottom': 0 - note.height()
-	}, 200, function(){
-		panel.animate({
-			'bottom': 0
-		}, 300, function(){
-			note.css('visibility', 'hidden');
-		});
-	});
-	*/
 }
 
 function setScrollBehavior(target, behavior){
@@ -360,14 +340,9 @@ function setAnimation(obj, behavior){
 }
 
 function freezeScroll(){
-	/*
 	while(screenState == SCREEN_STATE_ENUM.END){
 		scrollLock = setInterval(function(){
 			$(window).scrollTop(old.targetOffset);
 		}, 1);
 	}
-	*/
-	//while(screenState == SCREEN_STATE_ENUM.END){
-		//$(window).scrollTop(old.targetOffset);
-	//}
 }

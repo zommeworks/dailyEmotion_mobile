@@ -249,16 +249,16 @@ body{
 	display: block;
 	width: auto;
 	left: 0;
-	transition: all 0.3s ease-in-out;
-	-webkit-transition: all 0.3s ease-in-out;
+	transition: all .3s ease-in-out;
+	-webkit-transition: all .3s ease-in-out;
 }
 .bead-placeholder{
 	position: absolute;
 	display: block;
 	right: 0;
 	top: 50%;
-	transition: all 0.3s ease-in-out;
-	-webkit-transition: all 0.3s ease-in-out;
+	transition: all .3s ease-in-out;
+	-webkit-transition: all .3s ease-in-out;
 }
 
 
