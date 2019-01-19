@@ -33,6 +33,10 @@ var old = {
 	targetOffset: '',
 	h: ''
 }
+var removeList = [];
+var removeListRandom;
+var removeIntervalSwitch = []; //interval array
+var recallIntervalSwitch = []; //interval array
 var url_parameter = "https://spreadsheets.google.com/pub?key=1IqZWY3edz2fGNT8O3uciprX6oElkLu8Vm8-i33CMNyk&hl=kr&output=html";
 var googleSpreadsheet = new GoogleSpreadsheet();
 
@@ -191,55 +195,101 @@ function clickBeads(){
 	});
 
 }
+
 function beadsExpand(target){
 	var entry = $(target).closest(".bead-entry");
 	var placeholder = $(target).closest(".bead-placeholder");
-	var newValue = {
-		'm': rad_all[4]*4,
-		'h': $(window).height() - $('#note').height()
-	}
+	removeList = [];
 	/* set 'old' value */
 	old.scroll = $(window).scrollTop();
 	old.id = $(entry).attr('id');
 	old.targetOffset = $(entry).offset().top;
 	old.h = $(entry).height();
 	/* animate */
-	showNote();
 	setScrollBehavior('body', 'hidden');
-	/*
-	$(entry).animate({
-		'margin-top': rad_all[4]*4,
-		'height': $(window).height() - $('#note').height()
-	}, 300);
-	*/
-	$(entry).css({'margin-top': newValue.m, 'margin-bottom': newValue.m, 'height': newValue.h});
-	setAnimation(placeholder, 'var(--effect-bead-center)');
-	$('html, body').animate({
-		'scrollTop': $(entry).offset().top + newValue.m
-	}, 300, 'linear', function(){
-		screenState = SCREEN_STATE_ENUM.END;
+	$('.bead-entry').each(function(i, item){
+		var restof = $(item).find('.bead-placeholder');
+		var yPos = $(restof).offset().top;
+		var windowY0 = $('html, body').scrollTop() - $(item).height()*2;
+		var windowY1 = windowY0 + $(window).height() + $(item).height()*2;
+		if(yPos >= windowY0 && yPos < windowY1){
+			if(item.id != old.id){
+				removeList.push(i);
+			}
+		}
+		else{
+			if(item.id != old.id){
+			}
+		}
+	}).promise().done(function(){ //remove the other beads
+		removeListRandom = ShuffleArray(removeList);
+		removeIntervalSwitch = []; //reset interval array
+		$.each(removeListRandom, function(i, item){
+			var tempSwitch = setInterval(function(){
+				var restofMove = $('#'+item).find('.bead-placeholder');
+				$(restofMove).css('right', (-1)*(beads[i].x + beads[i].rad*4));
+			}, i*50);
+			removeIntervalSwitch.push(tempSwitch);
+		});
+		/* when it is finished to remove the other beads */
+		setTimeout(function(){
+			var entryHeight = $(window).height() - showNote();
+			setAnimation(placeholder, 'var(--effect-bead-center)');
+			$(entry).css('height', entryHeight);
+			/* scroll to the center */
+			$('html, body').animate({
+				'scrollTop': old.targetOffset
+			}, 300, function(){ //callback
+				screenState = SCREEN_STATE_ENUM.END;
+			});
+			$.each(removeIntervalSwitch, function(i, item){
+				clearInterval(item);
+			});
+		},  50*(removeList.length+1));
 	});
 }
 
 function beadsList(){
 	var entry = $('#'+old.id);
 	var placeholder = entry.children('.bead-placeholder');
-	hideNote();
-	$('body').css('overflow', 'auto');
+	/*animation*/
+	$(entry).css('height', beads[old.id].height);
+	setAnimation(placeholder, 'var(--effect-bead-back)');
+	$('html, body').animate({
+		'scrollTop': old.scroll
+	}, 300, function(){ //callback
+		hideNote();
+	});
+	recallIntervalSwitch = []; //reset interval array
+	$.each(removeListRandom, function(i, item){
+		var tempSwitch = setInterval(function(){
+			var restofMove = $('#'+item).find('.bead-placeholder');
+			$(restofMove).css('right', beads[i].x);
+		}, i*50);
+		recallIntervalSwitch.push(tempSwitch);
+	});
+	setTimeout(function(){
+		screenState = SCREEN_STATE_ENUM.LIST;
+		setScrollBehavior('body', 'auto');
+		$.each(recallIntervalSwitch, function(i, item){
+			clearInterval(item);
+		});
+	}, 50*(removeList.length+1));
 	/*
 	$(entry).animate({
 		'margin-top': 0,
 		'height': beads[old.id].height
 	}, 300);
 	*/
-	$(entry).css({'margin-top': 0, 'margin-bottom': 0, 'height': beads[old.id].height});
-	setAnimation(placeholder, 'var(--effect-bead-back)');
+	//$(entry).css({'margin-top': 0, 'margin-bottom': 0, 'height': beads[old.id].height});
+	/*
 	$('html, body').animate({
 		'scrollTop': old.scroll
 	}, 300, function(){
 		screenState = SCREEN_STATE_ENUM.LIST;
 		setScrollBehavior('body', 'auto');
 	});
+	*/
 }
 
 function showNote(){
@@ -253,6 +303,7 @@ function showNote(){
 	setTimeout(function(){
 		$(note).addClass('show');
 	}, 100);
+	return($(note).height());
 }
 
 function hideNote(){
@@ -309,10 +360,14 @@ function setAnimation(obj, behavior){
 }
 
 function freezeScroll(){
+	/*
 	while(screenState == SCREEN_STATE_ENUM.END){
-		var yPos = old.targetOffset + rad_all[4]*4;
 		scrollLock = setInterval(function(){
-			$(window).scrollTop(yPos);
+			$(window).scrollTop(old.targetOffset);
 		}, 1);
 	}
+	*/
+	//while(screenState == SCREEN_STATE_ENUM.END){
+		//$(window).scrollTop(old.targetOffset);
+	//}
 }

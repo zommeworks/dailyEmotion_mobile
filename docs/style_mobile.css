@@ -56,7 +56,6 @@
 @import url('https://fonts.googleapis.com/css?family=Song+Myung');
 */
 @import url('https://fonts.googleapis.com/css?family=Gothic+A1');
-
 body{
 	font-family: 'Gothic A1', sans-serif;
 	color: #222222;
@@ -249,14 +248,17 @@ body{
 	position: relative;
 	display: block;
 	width: auto;
-	transition: height 0.3s ease, margin-top 0.3s ease-in-out;
-	-webkit-transition: height 0.3s ease, margin-top 0.3s ease-in-out;
+	left: 0;
+	transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
 }
 .bead-placeholder{
 	position: absolute;
 	display: block;
 	right: 0;
 	top: 50%;
+	transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
 }
 
 
