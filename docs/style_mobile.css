@@ -80,8 +80,8 @@ p.small{
 	font-size: calc( var(--h1-size) * 3 / 4 );
 }
 .transition-height {
-	transition: height 0.3s ease, margin-top 0.3s ease;
-	-webkit-transition: height 0.3s ease, margin-top 0.3s ease;
+	transition: height .3s ease-in-out, margin-top .3s ease-in-out;
+	-webkit-transition: height .3s ease-in-out, margin-top .3s ease-in-out;
 }
 @keyframes color-change {
 	0% {background-color: var(--c1);}
@@ -217,22 +217,40 @@ body{
 	box-sizing: border-box;
 	vertical-align: middle;
 	width: 100%;
-	bottom: 0;
 	background-color: white;
+	transition: all .3s ease-in-out;
 	/*background-color: rgba(224,209,202,0.8);
 	box-shadow: 0px -2px 4px rgba(0,0,0,0.05);*/
 }
-#panel{
+#panel {
+	bottom: calc(var(--panel-height)*(-1));
 }
 #note{
 	visibility: hidden;
+	bottom: 0;
+	transform: translateY(calc(100% - var(--panel-height)));
+	-webkit-transform: translateY(calc(100% - var(--panel-height)));
+}
+#panel.show {
+	bottom: 0;
+	opacity: 1;
+}
+#panel.hide {
+	opacity: 0;
+}
+#note.show {
+	transform: translateY(0);
+	-webkit-transform: translateY(0);
+}
+#note.visible {
+	visibility: visible;
 }
 .bead-entry{
 	position: relative;
 	display: block;
 	width: auto;
-	transition: height 0.3s ease, margin-top 0.3s ease;
-	-webkit-transition: height 0.3s ease, margin-top 0.3s ease;
+	transition: height 0.3s ease, margin-top 0.3s ease-in-out;
+	-webkit-transition: height 0.3s ease, margin-top 0.3s ease-in-out;
 }
 .bead-placeholder{
 	position: absolute;

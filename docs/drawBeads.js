@@ -26,9 +26,12 @@ var SCREEN_STATE_ENUM = Object.freeze({
 	OVER: 4
 });
 var screenState;
+var scrollLock;
 var old = {
 	scroll: '',
-	id: ''
+	id: '',
+	targetOffset: '',
+	h: ''
 }
 var url_parameter = "https://spreadsheets.google.com/pub?key=1IqZWY3edz2fGNT8O3uciprX6oElkLu8Vm8-i33CMNyk&hl=kr&output=html";
 var googleSpreadsheet = new GoogleSpreadsheet();
@@ -52,6 +55,7 @@ $(document).ready(function(){
 		loadingEffect();
 		clickBeads();
 		clickHelp();
+		freezeScroll();
 	});
 });
 
@@ -167,7 +171,10 @@ function loadingEffect(){
 	$(note).appendTo('body');
 	$(footer).appendTo('body');
 	$('#spinner').hide();
-	$('#panel').css('animation', 'var(--effect-panel-up) running');
+	setTimeout(function(){
+		$('#panel').addClass('show');
+	}, 100);
+	//$('#panel').css('animation', 'var(--effect-panel-up) running');
 }
 
 function clickBeads(){
@@ -194,22 +201,47 @@ function beadsExpand(target){
 	/* set 'old' value */
 	old.scroll = $(window).scrollTop();
 	old.id = $(entry).attr('id');
-	/* animate */
+	old.targetOffset = $(entry).offset().top;
+	old.h = $(entry).height();
+	/* local constant definition */
+	const d = newValue.h/2 - old.h/2 + old.scroll - old.targetOffset;
+	/* animate margin */
 	showNote();
-	setScrollBehavior('body', 'hidden');
+	$(entry).css({'margin-top': newValue.m, 'margin-bottom': newValue.m, 'height': newValue.h});
+	setAnimation(placeholder, 'var(--effect-bead-center)');
+	/* animate scroll */
+	var intervalCount = 0;
+	var currentY;
+	var newScrollTop;
+	currentY = old.targetOffset + old.h/2 - old.scroll; //initialize y value
+	setInterval(function(){
+		if(intervalCount < 30){
+			currentY += d / 30;
+			newScrollTop = $(placeholder).offset().top - currentY;
+			$(window).scrollTop(newScrollTop);
+			intervalCount++;
+		}
+		else{
+			setScrollBehavior('body', 'hidden');
+			screenState = SCREEN_STATE_ENUM.END;
+			clearInterval();
+		}
+	}, 10);
 	/*
 	$(entry).animate({
 		'margin-top': rad_all[4]*4,
 		'height': $(window).height() - $('#note').height()
 	}, 300);
 	*/
+	/*
 	$(entry).css({'margin-top': newValue.m, 'margin-bottom': newValue.m, 'height': newValue.h});
 	setAnimation(placeholder, 'var(--effect-bead-center)');
 	$('html, body').animate({
-		'scrollTop': $(entry).offset().top + rad_all[4]*4
+		'scrollTop': $(entry).offset().top + newValue.m
 	}, 300, function(){
 		screenState = SCREEN_STATE_ENUM.END;
 	});
+	*/
 }
 
 function beadsList(){
@@ -238,20 +270,25 @@ function showNote(){
 	var note = $('#note');
 	$(note).children('h1').text(beads[old.id].date+". "+beads[old.id].day);
 	$(note).children('p').text(beads[old.id].note);
-	$(note).css('bottom', 0 - note.height());
-	note.css('visibility', 'visible');
-	panel.animate({
-		'bottom': 0 - panel.height()
-	}, 200, function(){
-		note.animate({
-			'bottom': 0
-		}, 300);
-	});
+	//$(note).css('bottom', panel.height - note.height);
+	$(panel).addClass('hide');
+	$(note).addClass('visible');
+	setTimeout(function(){
+		$(note).addClass('show');
+	}, 100);
 }
 
 function hideNote(){
 	var panel = $('#panel');
 	var note = $('#note');
+	$(note).removeClass('show');
+	setTimeout(function(){
+		$(panel).removeClass('hide');
+		setTimeout(function(){
+			$(note).removeClass('visible');
+		},300);
+	}, 300);
+	/*
 	note.animate({
 		'bottom': 0 - note.height()
 	}, 200, function(){
@@ -261,6 +298,7 @@ function hideNote(){
 			note.css('visibility', 'hidden');
 		});
 	});
+	*/
 }
 
 function setScrollBehavior(target, behavior){
@@ -291,4 +329,13 @@ function setAnimation(obj, behavior){
 		}
 	});
 	*/
+}
+
+function freezeScroll(){
+	while(screenState == SCREEN_STATE_ENUM.END){
+		var yPos = old.targetOffset + rad_all[4]*4;
+		scrollLock = setInterval(function(){
+			$(window).scrollTop(yPos);
+		}, 1);
+	}
 }
