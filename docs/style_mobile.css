@@ -49,6 +49,8 @@
 
 
 
+
+
 /**********************
   style definition
   *********************/
@@ -59,6 +61,8 @@
 body{
 	font-family: 'Gothic A1', sans-serif;
 	color: #222222;
+	user-select: none;
+	-webkit-user-select: none;
 }
 h1{
 	position: relative;
@@ -81,6 +85,9 @@ p.small{
 .transition-height {
 	transition: height .3s ease-in-out, margin-top .3s ease-in-out;
 	-webkit-transition: height .3s ease-in-out, margin-top .3s ease-in-out;
+}
+.touch-lock {
+
 }
 @keyframes color-change {
 	0% {background-color: var(--c1);}
@@ -170,6 +177,10 @@ p.small{
 	}
 }
 
+
+
+
+
  /**********************
    container definition
   **********************/
@@ -179,6 +190,7 @@ p.small{
 
 body{
 	margin: 0;
+	touch-action: pan-y;
 	overflow-x: hidden;
 	-webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
@@ -187,6 +199,9 @@ body{
   -ms-user-select: none;       /* Internet Explorer/Edge*/
    user-select: none;          /* Non-prefixed version, currently
                                   not supported by any browser */
+}
+div {
+	touch-action: pan-y;
 }
 #screen-beads{
 	width: 100vw;
@@ -201,6 +216,7 @@ body{
 	box-sizing: border-box;
 	background-color: #e0d1ca;
 	overflow: hidden;
+	touch-action: pan-y;
 }
 #container-bg{
 	position: fixed;
@@ -259,6 +275,12 @@ body{
 	top: 50%;
 	transition: all .3s ease-in-out;
 	-webkit-transition: all .3s ease-in-out;
+}
+.bead-placeholder.center {
+	right: 50%;
+}
+#container.lock {
+	touch-action: none;
 }
 
 
@@ -323,14 +345,18 @@ body{
 	width: calc(var(--panel-height)/2);
 	height: calc(var(--panel-height)/2);
 	border-radius: 200px;
+	/*
 	animation-name: color-change;
 	animation-duration: 5s;
 	animation-iteration-count: infinite;
+	*/
 	text-align: center;
 	vertical-align: middle;
 	line-height: calc(var(--panel-height)/2);
 	font-size: var(--h1-size);
 	color: white;
+	background-color: #e0d1ca;
+	box-shadow: inset 0px 2px 4px rgba(0,0,0,0.2);
 }
 /*loading spinner*/
 #spinner {
@@ -393,6 +419,11 @@ body{
 #spd-3{
 		animation: spinner-c3 2.4s infinite;
 }
+
+
+
+
+
 /*******************
  * size definition *
  *******************/
