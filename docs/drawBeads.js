@@ -121,8 +121,8 @@ function putBeads(beadsObj){
 			if(item.spectrum > 0){
 				opacity = 0.2 + 0.15 * Math.max(0, item.intensity-1);
 				fill_image += item.spectrum + "_";
-				if(item.intensity < 3){
-					fill_image += "1.png";
+				if(item.intensity <= 3){
+					fill_image += Math.round(Math.random() + 1) + ".png";
 				}
 				else{
 					fill_image += Math.round(Math.random() * 2 + 1) + ".png";
