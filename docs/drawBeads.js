@@ -214,7 +214,7 @@ function beadsExpand(target){
 	old.h = $(entry).height();
 	/* animate */
 	setScrollBehavior('body', 'hidden');
-	$('#container').addClass('lock');
+	$('html, body').addClass('lock');
 	$('.bead-entry').each(function(i, item){
 		var restof = $(item).find('.bead-placeholder');
 		var yPos = $(restof).offset().top;
@@ -246,7 +246,7 @@ function beadsExpand(target){
 			//setAnimation(placeholder, 'var(--effect-bead-center)');
 			$(entry).css('height', entryHeight);
 			/* scroll to the center */
-			$('#container').removeClass('lock');
+			$('html, body').removeClass('lock');
 			$('html, body, window').animate({
 				'scrollTop': old.targetOffset
 			}, 300, function(){ //callback
