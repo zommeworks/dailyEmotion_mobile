@@ -87,7 +87,7 @@ function putDynamicComps(){
 	var todayIndex = 0;
 	for(i = 1; (i < jsonData.length)&&(Date.parse(jsonData[i].date) < Date.now()); i++){
 		todayIndex++;
-	}	
+	}
 	for(i = 1; i < todayIndex+1; i++){
 		dayBox.push(document.createElement('div'));
 		stitchBox.push(document.createElement('div'));

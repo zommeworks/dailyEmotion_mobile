@@ -49,6 +49,8 @@
 
 
 
+
+
 /**********************
   style definition
   *********************/
@@ -59,6 +61,8 @@
 body{
 	font-family: 'Gothic A1', sans-serif;
 	color: #222222;
+	user-select: none;
+	-webkit-user-select: none;
 }
 h1{
 	position: relative;
@@ -82,6 +86,9 @@ p.small{
 	transition: height .3s ease-in-out, margin-top .3s ease-in-out;
 	-webkit-transition: height .3s ease-in-out, margin-top .3s ease-in-out;
 }
+.touch-lock {
+
+}
 @keyframes color-change {
 	0% {background-color: var(--c1);}
 	30% {background-color: var(--c2);}
@@ -100,21 +107,6 @@ p.small{
   0%   {transform: rotate(0deg);}
   50%  {transform: rotate(0deg);}
   100% {transform: rotate(-30deg);}
-}
-
-@keyframes spinner-c1 {
-	0%    {background-color: var(--c1);}
-	100%  {background-color: var(--c1);}
-}
-@keyframes spinner-c2 {
-	0%    {background-color: var(--c1);}
-	25%   {background-color: var(--c3);}
-	75%   {background-color: var(--c1);}
-	100%  {background-color: var(--c1);}
-}
-@keyframes spinner-c3 {
-	0%    {background-color: var(--c3);}
-	100%  {background-color: var(--c3);}
 }
 @keyframes blur {
 	from {
@@ -170,6 +162,10 @@ p.small{
 	}
 }
 
+
+
+
+
  /**********************
    container definition
   **********************/
@@ -179,6 +175,7 @@ p.small{
 
 body{
 	margin: 0;
+	touch-action: pan-y;
 	overflow-x: hidden;
 	-webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
@@ -187,6 +184,9 @@ body{
   -ms-user-select: none;       /* Internet Explorer/Edge*/
    user-select: none;          /* Non-prefixed version, currently
                                   not supported by any browser */
+}
+div {
+	touch-action: pan-y;
 }
 #screen-beads{
 	width: 100vw;
@@ -201,6 +201,7 @@ body{
 	box-sizing: border-box;
 	background-color: #e0d1ca;
 	overflow: hidden;
+	touch-action: pan-y;
 }
 #container-bg{
 	position: fixed;
@@ -229,6 +230,19 @@ body{
 	bottom: 0;
 	transform: translateY(calc(100% - var(--panel-height)));
 	-webkit-transform: translateY(calc(100% - var(--panel-height)));
+}
+#panel::after, #note::after {
+	position: absolute;
+	top: 0;
+	content: '';
+	background-color: inherit;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	transition: all .3s ease-in-out;
+}
+#panel.whiteout::after, #note.whiteout::after{
+	opacity: 1;
 }
 #panel.show {
 	bottom: 0;
@@ -259,6 +273,12 @@ body{
 	top: 50%;
 	transition: all .3s ease-in-out;
 	-webkit-transition: all .3s ease-in-out;
+}
+.bead-placeholder.center {
+	right: 50%;
+}
+#container.lock {
+	touch-action: none;
 }
 
 
@@ -323,14 +343,18 @@ body{
 	width: calc(var(--panel-height)/2);
 	height: calc(var(--panel-height)/2);
 	border-radius: 200px;
+	/*
 	animation-name: color-change;
 	animation-duration: 5s;
 	animation-iteration-count: infinite;
+	*/
 	text-align: center;
 	vertical-align: middle;
 	line-height: calc(var(--panel-height)/2);
 	font-size: var(--h1-size);
 	color: white;
+	background-color: #e0d1ca;
+	box-shadow: inset 0px 2px 4px rgba(0,0,0,0.2);
 }
 /*loading spinner*/
 #spinner {
@@ -370,7 +394,7 @@ body{
   -webkit-transform: translate(-50%, -50%);
   width: calc(var(--cbox-w)/8);
   height: calc(var(--cbox-w)/8);
-  background-color: black;
+  background-color: rgba(0,0,0,0.6);
   border-radius: 200px;
   margin: 0;
   padding: 0;
@@ -384,15 +408,11 @@ body{
 	animation: spinner3 0.6s ease-out infinite alternate-reverse;
 
 }
-#spd-1{
-		animation: spinner-c1 2.4s infinite;
-}
-#spd-2{
-		animation: spinner-c2 1.2s step-start infinite;
-}
-#spd-3{
-		animation: spinner-c3 2.4s infinite;
-}
+
+
+
+
+
 /*******************
  * size definition *
  *******************/
