@@ -231,6 +231,19 @@ div {
 	transform: translateY(calc(100% - var(--panel-height)));
 	-webkit-transform: translateY(calc(100% - var(--panel-height)));
 }
+#panel::after, #note::after {
+	position: absolute;
+	top: 0;
+	content: '';
+	background-color: inherit;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	transition: all .3s ease-in-out;
+}
+#panel.whiteout::after, #note.whiteout::after{
+	opacity: 1;
+}
 #panel.show {
 	bottom: 0;
 	opacity: 1;

@@ -37,7 +37,8 @@ var removeList = [];
 var removeListRandom;
 var removeIntervalSwitch = []; //interval array
 var recallIntervalSwitch = []; //interval array
-var url_parameter = "https://spreadsheets.google.com/pub?key=1IqZWY3edz2fGNT8O3uciprX6oElkLu8Vm8-i33CMNyk&hl=kr&output=html";
+//var url_parameter = "https://spreadsheets.google.com/pub?key=1IqZWY3edz2fGNT8O3uciprX6oElkLu8Vm8-i33CMNyk&hl=kr&output=html";
+var url_parameter = "https://spreadsheets.google.com/pub?key=16dYCHjSXG7FMwLAa-7c65TYiNZSJd2wOf-0CMN_efjA&hl=kr&output=html";
 var googleSpreadsheet = new GoogleSpreadsheet();
 
 
@@ -175,7 +176,7 @@ function putBeads(beadsObj){
 
 
 function loadingEffect(){
-	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2018년의 어느 날들</h1><div id=\"help\">?<\/div><\/div>";
+	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2019년의 어느 날들</h1><div id=\"help\">?<\/div><\/div>";
 	var note = "<div id=\"note\"><h1></h1><p></p><\/div>";
 	$('#container').css('animation', 'var(--effect-fadein) running');
 	window.scrollTo(0,$(document).height());
@@ -183,7 +184,7 @@ function loadingEffect(){
 	$(footer).appendTo('body');
 	$('#spinner').hide();
 	setTimeout(function(){
-		$('#panel').addClass('show');
+		$('#panel').toggleClass('show');
 	}, 200);
 	//$('#panel').css('animation', 'var(--effect-panel-up) running');
 }
@@ -214,7 +215,8 @@ function beadsExpand(target){
 	old.h = $(entry).height();
 	/* animate */
 	setScrollBehavior('body', 'hidden');
-	$('html, body').addClass('lock');
+	$('#panel').toggleClass('whiteout');
+	$('html, body').toggleClass('lock');
 	$('.bead-entry').each(function(i, item){
 		var restof = $(item).find('.bead-placeholder');
 		var yPos = $(restof).offset().top;
@@ -293,10 +295,11 @@ function showNote(){
 	var note = $('#note');
 	$(note).children('h1').text(beads[old.id].date+". "+beads[old.id].day);
 	$(note).children('p').text(beads[old.id].note);
-	$(panel).addClass('hide');
-	$(note).addClass('visible');
+	$(panel).toggleClass('hide');
+	$(note).toggleClass('visible');
 	setTimeout(function(){
-		$(note).addClass('show');
+		$(note).toggleClass('show');
+		$(note).removeClass('whiteout');
 	}, 100);
 	return($(note).height());
 }
@@ -304,6 +307,8 @@ function showNote(){
 function hideNote(){
 	var panel = $('#panel');
 	var note = $('#note');
+	$(panel).removeClass('whiteout');
+	$(note).addClass('whiteout');
 	$(note).removeClass('show');
 	setTimeout(function(){
 		$(panel).removeClass('hide');
