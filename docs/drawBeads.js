@@ -220,7 +220,7 @@ function beadsExpand(target){
 	$('.bead-entry').each(function(i, item){
 		var restof = $(item).find('.bead-placeholder');
 		var yPos = $(restof).offset().top;
-		var windowY0 = $('html, body').scrollTop() - $(item).height()*2;
+		var windowY0 = $(window).scrollTop() - $(item).height()*2;
 		var windowY1 = windowY0 + $(window).height() + $(item).height()*2;
 		if(yPos >= windowY0 && yPos < windowY1){
 			if(item.id != old.id){
