@@ -60,6 +60,7 @@ $(document).ready(function(){
 		loadingEffect();
 		clickBeads();
 		clickHelp();
+		clickClose();
 	});
 });
 
@@ -100,6 +101,10 @@ function loadSheetData(sheet){
 
 
 function putBeads(beadsObj){
+	/* create screen */
+	var obj_screen = $("<div id='screen-beads' class='screen'><\/div>");
+	var obj_container = $("<div id='container'><\/div>");
+	$(obj_screen).append(obj_container);
 	//retrieve radius
 	for(i = 1; i <= 5; i++){
 		var target = "<div class='bead-size-"+i+"'></div>";
@@ -112,13 +117,11 @@ function putBeads(beadsObj){
 		var rgba;
 		var opacity = 0.4;
 		var fill_image;
-		console.log(rexpDay.test(item.date));
 		if(rexpDay.test(item.date)){ //first day test
-			fill_image = item.date.slice(5,7)+".png";
-			console.log(fill_image);
+			fill_image = "src/img/" + item.date.slice(5,7)+".png";
 		}
 		else{
-			fill_image = "fill_";
+			fill_image = "src/img/fill_";
 			if(item.spectrum > 0){
 				opacity = 0.2 + 0.15 * Math.max(0, item.intensity-1);
 				fill_image += item.spectrum + "_";
@@ -166,27 +169,29 @@ function putBeads(beadsObj){
 			$(obj_placeholder).append(obj_filling);
 			$(obj_placeholder).append(obj_glow);
 			$(obj_entry).append(obj_placeholder);
-			$(obj_entry).appendTo('#container');
+			$(obj_entry).appendTo(obj_container);
 			item['y'] = $(obj_placeholder).offset().top;
 			item['height'] = $(obj_entry).height();
 			item['z'] = $(obj_entry).css('z-index');
 		}
 	});
+	$(obj_screen).appendTo('body');
 }
 
 
 function loadingEffect(){
 	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2019년의 어느 날들</h1><div id=\"help\">?<\/div><\/div>";
-	var note = "<div id=\"note\"><h1></h1><p></p><\/div>";
-	$('#container').css('animation', 'var(--effect-fadein) running');
-	window.scrollTo(0,$(document).height());
-	$(note).appendTo('body');
-	$(footer).appendTo('body');
+	var note = "<div id=\"note\"><h1></h1><p></p><div id=\"note-close\" class=\"button-close\"><\/div><\/div>";
+	var screen = $("#screen-beads");
+	$('#container').css('animation', 'var(--effect-fadein)');
+	screen.scrollTop($("#container").height());
+	$(note).appendTo(screen);
+	$(footer).appendTo(screen);
 	$('#spinner').hide();
 	setTimeout(function(){
 		$('#panel').toggleClass('show');
 	}, 200);
-	//$('#panel').css('animation', 'var(--effect-panel-up) running');
+	putHelp();
 }
 
 function clickBeads(){
@@ -196,7 +201,7 @@ function clickBeads(){
 			beadsExpand(target);
 		}
 	});
-	$("body").click(function(){
+	$(".bead-glow, #note-close").click(function(){
 		if(screenState == SCREEN_STATE_ENUM.END){
 			beadsList();
 		}
@@ -207,14 +212,18 @@ function clickBeads(){
 function beadsExpand(target){
 	var entry = $(target).closest(".bead-entry");
 	var placeholder = $(target).closest(".bead-placeholder");
+	var screen = $(target).closest(".screen");
+	var container = $("#container");
 	removeList = [];
 	/* set 'old' value */
 	old.scroll = $(window).scrollTop();
 	old.id = $(entry).attr('id');
 	old.targetOffset = $(entry).offset().top;
 	old.h = $(entry).height();
+	/* lock scroll */
+	$(screen).toggleClass('lock');
+	//setScrollBehavior(screen, 'hidden');
 	/* animate */
-	setScrollBehavior('body', 'hidden');
 	$('#panel').toggleClass('whiteout');
 	$('html, body').toggleClass('lock');
 	$('.bead-entry').each(function(i, item){
@@ -244,15 +253,13 @@ function beadsExpand(target){
 		/* when it is finished to remove the other beads */
 		setTimeout(function(){
 			var entryHeight = $(window).height() - showNote();
+			screenState = SCREEN_STATE_ENUM.END;
 			$(placeholder).css('right', '50%');
-			//setAnimation(placeholder, 'var(--effect-bead-center)');
 			$(entry).css('height', entryHeight);
 			/* scroll to the center */
-			$('html, body').removeClass('lock');
-			$('html, body, window').animate({
-				'scrollTop': old.targetOffset
-			}, 300, function(){ //callback
-				screenState = SCREEN_STATE_ENUM.END;
+			$(container).css({
+				'-webkit-transform': 'translateY('+ (-1)*old.targetOffset +'px)',
+				'transform': 'translateY('+ (-1)*old.targetOffset +'px)'
 			});
 			$.each(removeIntervalSwitch, function(i, item){
 				clearInterval(item);
@@ -264,15 +271,16 @@ function beadsExpand(target){
 function beadsList(){
 	var entry = $('#'+old.id);
 	var placeholder = entry.children('.bead-placeholder');
+	var screen = $(entry).closest('.screen');
+	var container = $("#container");
 	/*animation*/
 	$(entry).css('height', beads[old.id].height);
 	$(placeholder).css('right', beads[old.id].x);
-	//setAnimation(placeholder, 'var(--effect-bead-back)');
-	$('html, body, window').animate({
-		'scrollTop': old.scroll
-	}, 300, function(){ //callback
-		hideNote();
+	$(container).css({
+		'-webkit-transform': 'translateY(0px)',
+		'transform': 'translateY(0px)'
 	});
+	setTimeout(hideNote(), 300);
 	recallIntervalSwitch = []; //reset interval array
 	$.each(removeListRandom, function(i, item){
 		var tempSwitch = setInterval(function(){
@@ -283,7 +291,8 @@ function beadsList(){
 	});
 	setTimeout(function(){
 		screenState = SCREEN_STATE_ENUM.LIST;
-		setScrollBehavior('body', 'auto');
+		$(screen).toggleClass('lock');
+		//setScrollBehavior('body', 'auto');
 		$.each(recallIntervalSwitch, function(i, item){
 			clearInterval(item);
 		});
@@ -318,17 +327,15 @@ function hideNote(){
 	}, 300);
 }
 
-function setScrollBehavior(target, behavior){
-	$(target).css('overflow-y', behavior);
-}
-
 function clickHelp(){
 	$('#help').click(function(){
-		setScrollBehavior('body', 'hidden');
-		setAnimation('#container', 'var(--effect-blur)');
-		setAnimation('#panel', 'var(--effect-blur)');
+		$("#screen-beads").toggleClass('blur');
+		//setScrollBehavior('body', 'hidden');
+		//setAnimation('#container', 'var(--effect-blur)');
+		//setAnimation('#panel', 'var(--effect-blur)');
 		//$('#container').css('animation', 'var(--effect-blur) running');
 		//$('#panel').css('animation', 'var(--effect-blur) running');
+		drawHelp();
 	});
 }
 
@@ -348,10 +355,39 @@ function setAnimation(obj, behavior){
 	*/
 }
 
-function freezeScroll(){
-	while(screenState == SCREEN_STATE_ENUM.END){
-		scrollLock = setInterval(function(){
-			$(window).scrollTop(old.targetOffset);
-		}, 1);
-	}
+function putHelp(){
+  var obj_screen = $("<div id='screen-help' class='screen hide'><\/div>");
+  var obj_scroller = $("<div id='help-scroller'><\/div>");
+  var obj_header = $("<div id='help-header' class='helpcontent textbox align-top'><\/div>");
+  var obj_footer = $("<div id='help-footer' class='helpcontent textbox align-bottom'><\/div>");
+  var obj_canvas = $("<canvas id='help-canvas' class='helpcontent canvasbox'><\/canvas>");
+  $(obj_header).append(cnt_title);
+  $(obj_header).append(cnt_btn_x);
+  $(obj_footer).append("<h2>"+ cnt_desc[0].h +"<\/h2>");
+  $(obj_footer).append(cnt_btn_arrowdown);
+  $(obj_footer).append("<p class='subtitle'>"+ cnt_desc[0].p +"<\/p>");
+  /* put text components on the screen */
+  $(obj_header).appendTo(obj_screen);
+  $(obj_footer).appendTo(obj_screen);
+	$(obj_canvas).appendTo(obj_screen);
+  $(obj_screen).appendTo("body");
+}
+
+function drawHelp(){
+	$("#screen-help").toggleClass('hide');
+}
+
+function setScrollBehavior(target, behavior){
+	$(target).css('overflow-y', behavior);
+}
+
+function clickClose(){
+  $('.button-close').click(function(){
+    var target = $(this).closest('.screen');
+		if(screenState != SCREEN_STATE_ENUM.END){
+	    target.addClass('hide');
+			setAnimation('#screen-beads', 'var(--effect-blur) reverse');
+			screenState = SCREEN_STATE_ENUM.LIST;
+		}
+  });
 }

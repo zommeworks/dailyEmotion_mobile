@@ -41,10 +41,6 @@
 	/*animations*/
 	--effect-blur: blur 0.5s forwards;
 	--effect-fadein: fadein 1.5s forwards;
-	--effect-panel-up: panel-up 1s forwards;
-	--effect-bead-center: bead-center 0.3s linear forwards;
-	--effect-bead-back: bead-back 0.3s linear forwards reverse;
-	--effect-entry-expand: entry-expand 0.3s linear forwards;
 }
 
 
@@ -68,34 +64,79 @@ h1{
 	position: relative;
 	color: #222222;
 	text-align: left;
-	font-weight: 400;
+	font-weight: 600;
 	font-size: var(--h1-size);
 	margin-top: var(--padding-min);
 	margin-bottom: calc(var(--padding-min / 2));
 }
+.textbox h1, .textbox h2, #note h1, #note h2 {
+	margin-top: 0;
+}
+h2 {
+	position: relative;
+	color: #222222;
+	text-align: left;
+	font-weight: 600;
+	font-size: calc( var(--h1-size) * 3 / 4 );
+	margin-bottom: var(--padding-min);
+}
 p{
-	font-weight: 300;
+	font-weight: 400;
 	font-size: var(--h1-size);
 	margin-bottom: var(--padding-min);
 	margin-top: calc(var(--padding-min / 2));
 }
+.textbox p, #note p {
+	margin-bottom: 0;
+}
 p.small{
 	font-size: calc( var(--h1-size) * 3 / 4 );
 }
+p.subtitle {
+	margin-top: calc(var(--padding-min / 2));
+	margin-bottom: 0;
+	font-size: calc( var(--h1-size) * 3 / 4 );
+}
+
+
+
+
+
+/***********
+ * effects *
+ ***********/
 .transition-height {
 	-webkit-transition: height .3s ease-in-out, margin-top .3s ease-in-out;
 	transition: height .3s ease-in-out, margin-top .3s ease-in-out;
 }
-.touch-lock {
 
+#panel.whiteout::after, #note.whiteout::after{
+	pointer-events: none;
+	opacity: 1;
+	-webkit-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;
 }
-@keyframes color-change {
-	0% {background-color: var(--c1);}
-	30% {background-color: var(--c2);}
-	50% {background-color: var(--c3);}
-	70% {background-color: var(--c4);}
-	85% {background-color: var(--c5);}
-	100% {background-color: var(--c1);}
+#panel.show {
+	bottom: 0;
+	opacity: 1;
+}
+#panel.hide {
+	opacity: 0;
+}
+#note.show {
+	transform: translateY(0);
+	-webkit-transform: translateY(0);
+}
+#note.visible {
+	visibility: visible;
+}
+#screen-help.hide {
+	opacity: 0;
+	visibility: hidden;
+}
+.screen.blur {
+	-webkit-filter: blur(60px);
+	filter: blur(60px);
 }
 @keyframes spinner1 {
 	0% {transform: rotate(30deg);}
@@ -114,39 +155,22 @@ p.small{
 		-webkit-filter: blur(0);
 	}
 	to {
-		filter: blur(40px);
-		-webkit-filter: blur(40px);
+		filter: blur(60px);
+		-webkit-filter: blur(60px);
 	}
 }
 @keyframes fadein {
 	from {
-		filter: blur(40px);
-		-webkit-filter: blur(40px);
+		-webkit-filter: blur(60px);
+		filter: blur(60px);
 		opacity: 0;
 	}
 	to {
-		filter: blur(0);
 		-webkit-filter: blur(0);
+		filter: blur(0);
 		opacity: 1;
 	}
 }
-@keyframes panel-up {
-	from {
-		bottom: -100px;
-	}
-	to {
-		bottom: 0;
-	}
-}
-
-@keyframes bead-center {
-	from {}
-	to {right: 50%;}
-}
-@keyframes bead-back {
- 	from {}
- 	to {right: 50%;}
- }
 @keyframes entry-expand {
 	from {}
 	to {
@@ -159,6 +183,28 @@ p.small{
 	to {
 		/*margin-top: var(--d-5);*/
 		height: 200px;
+	}
+}
+@keyframes arrow-swing {
+	0% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+	}
+	25% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+	}
+	50% {
+		-webkit-transform: translateY(calc(var(--h1-size)*(-1)));
+		transform: translateY(calc(var(--h1-size)*(-1)));
+	}
+	75% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
+	}
+	100% {
+		-webkit-transform: translateY(0);
+		transform: translateY(0);
 	}
 }
 
@@ -177,6 +223,7 @@ body{
 	margin: 0;
 	touch-action: pan-y;
 	overflow-x: hidden;
+	background-color: #e0d1ca;
 	-webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
   -khtml-user-select: none;    /* Konqueror */
@@ -188,11 +235,34 @@ body{
 div {
 	touch-action: pan-y;
 }
-#screen-beads{
+.textbox{
+	box-sizing: border-box;
+	width: 100%;
+}
+.canvasbox {
+	width: 100%;
+}
+#help-canvas.canvasbox{
+	top: calc(var(--panel-height) + 1.4*var(--p-h1-size));
+	height: calc(100vh - (2*var(--panel-height) + 4.4*var(--p-h1-size)));
+}
+#screen-beads {
 	width: 100vw;
 	height: 100vh;
 	overflow-x: hidden;
 	overflow-y: auto;
+	-webkit-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;
+}
+#screen-help {
+	position: fixed;
+	top: 0;
+	width: 100vw;
+	height: 100vh;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	-webkit-transition: all .5s linear;
+	transition: all .5s linear;
 }
 #container{
 	position: relative;
@@ -202,6 +272,8 @@ div {
 	background-color: #e0d1ca;
 	overflow: hidden;
 	touch-action: pan-y;
+	-webkit-transition: all .3s ease-in-out;
+	transition: all .3s ease-in-out;
 }
 #container-bg{
 	position: fixed;
@@ -232,7 +304,8 @@ div {
 	-webkit-transform: translateY(calc(100% - var(--panel-height)));
 	transform: translateY(calc(100% - var(--panel-height)));
 }
-#panel:after, #note:after {
+#panel::after, #note::after {
+	pointer-events: none;
 	position: absolute;
 	top: 0;
 	content: '';
@@ -242,25 +315,6 @@ div {
 	opacity: 0;
 	-webkit-transition: all .3s ease-in-out;
 	transition: all .3s ease-in-out;
-}
-#panel.whiteout:after, #note.whiteout:after{
-	opacity: 1;
-	-webkit-transition: all .3s ease-in-out;
-	transition: all .3s ease-in-out;
-}
-#panel.show {
-	bottom: 0;
-	opacity: 1;
-}
-#panel.hide {
-	opacity: 0;
-}
-#note.show {
-	transform: translateY(0);
-	-webkit-transform: translateY(0);
-}
-#note.visible {
-	visibility: visible;
 }
 .bead-entry{
 	position: relative;
@@ -281,10 +335,25 @@ div {
 .bead-placeholder.center {
 	right: 50%;
 }
-#container.lock {
+#screen-beads.lock {
 	touch-action: none;
+	overflow: hidden;
 }
 
+
+#help-arrow {
+	position: absolute;
+	top: calc((var(--panel-height) - var(--h1-size)) / 2);
+	right: var(--padding-min);
+	overflow: hidden;
+	width: var(--h1-size);
+	height: calc(100% - (var(--panel-height) - var(--h1-size)));
+}
+#help-scroller {
+	position: relative;
+	width: 100%;
+	height: 400vh;
+}
 
 
 
@@ -316,7 +385,7 @@ div {
 }
 .bead-base{
 	background-color: rgba(0,0,0,0.2);
-	background-image: url('bead_base.png');
+	background-image: url('src/img/bead_base.png');
 	background-blend-mode: overlay;
 
 }
@@ -325,14 +394,14 @@ div {
 
 }
 .bead-glow{
-	background-image: url('bead_glow.png');
+	background-image: url('src/img/bead_glow.png');
 	background-blend-mode: screen;
 	cursor: pointer;
 }
 .bead-shadow{
 	mix-blend-mode: multiply;
 	background-color: rgba(0,0,0,0.2);
-	background-image: url('bead_shadow.png');
+	background-image: url('src/img/bead_shadow.png');
 	background-size: 100%;
 	background-blend-mode: screen;
 	right: 0;
@@ -347,11 +416,6 @@ div {
 	width: calc(var(--panel-height)/2);
 	height: calc(var(--panel-height)/2);
 	border-radius: 200px;
-	/*
-	animation-name: color-change;
-	animation-duration: 5s;
-	animation-iteration-count: infinite;
-	*/
 	text-align: center;
 	vertical-align: middle;
 	line-height: calc(var(--panel-height)/2);
@@ -402,7 +466,6 @@ div {
   border-radius: 200px;
   margin: 0;
   padding: 0;
-	/*animation: color-change 6s ease infinite;*/
 }
 #sp-1{
 	animation: spinner1 0.6s ease-in infinite alternate-reverse;
@@ -412,9 +475,48 @@ div {
 	animation: spinner3 0.6s ease-out infinite alternate-reverse;
 
 }
+.button-close {
+	position: absolute;
+	top: calc(var(--panel-height)/2 - var(--h1-size));
+	right: calc(var(--padding-min) - var(--h1-size)/2);
+	width: var(--h1-size);
+	height: var(--h1-size);
+	background: url('src/img/icon_x.svg');
+	background-repeat: no-repeat;
+	background-size: var(--h1-size) var(--h1-size);
+	background-position: center;
+	cursor: pointer;
+	padding: calc(var(--h1-size)/2);
+}
+.button-arrowdown {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	bottom: 0;
+	background: url('src/img/icon_arrowdown.svg');
+	background-repeat: no-repeat;
+	background-size: var(--h1-size) auto;
+	background-position: bottom;
+	animation: arrow-swing 3.2s ease-in-out infinite;
+}
 
 
 
+
+/***********************
+ * alignment definition *
+ ***********************/
+.align-bottom {
+	position: fixed;
+	bottom: 0;
+}
+.align-top {
+	position: fixed;
+	top: 0;
+}
+.helpcontent {
+	position: fixed;
+}
 
 
 /*******************
@@ -492,8 +594,8 @@ div {
 	padding: 0px var(--padding-min);
 	cursor: pointer;
 }
-#note{
-	padding: 0 var(--padding-min);
+#note, .textbox{
+	padding: calc((var(--panel-height) - var(--h1-size)) / 2) var(--padding-min);
 }
 .text-header{
 	top: calc( var(--panel-height) / 2);
