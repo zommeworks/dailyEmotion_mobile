@@ -222,7 +222,9 @@ p.subtitle {
 body{
 	margin: 0;
 	touch-action: pan-y;
-	overflow-x: hidden;
+	width: 100vw;
+	height: 100vh;
+	overflow: hidden;
 	background-color: #e0d1ca;
 	-webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
