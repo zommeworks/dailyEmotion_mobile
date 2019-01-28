@@ -55,3 +55,22 @@ function ShuffleArray(o) {
 	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
 	return o;
 };
+
+function between(x, min, max){
+	return x >= min && x < max;
+}
+
+function rangeResult(x, x1, x2, y1, y2){
+	var y = (y2 - y1)/(x2 - x1)*(x - x1) + y1;
+	var result;
+	if(x < x1){
+		result = y1;
+	}
+	else if(x > x2){
+		result = y2;
+	}
+	else{
+		result = y;
+	}
+	return result;
+}

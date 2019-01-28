@@ -19,6 +19,7 @@ $(document).ready(function(){
 	setCSS();
   drawHelp();
   clickClose();
+  checkScroll();
 });
 
 function setCSS(){
@@ -37,26 +38,31 @@ function drawHelp(){
   var obj_scroller = $("<div id='help-scroller'><\/div>");
   var obj_header = $("<div id='help-header' class='helpcontent textbox align-top'><\/div>");
   var obj_footer = $("<div id='help-footer' class='helpcontent textbox align-bottom'><\/div>");
-  var obj_canvas = $("<canvas id='help-canvas' class='helpcontent canvasbox'><\/canvas>");
+  var obj_content = $("<div id='help-content' class='helpcontent canvasbox'><\/div>");
+  /* contents */
+  var content_wheel = $("<div id='help-colorwheel'><\/div>");
+  var content_beadOpacity = $("<div id='help-bead-opacity'><\/div>");
   /* put intialize texts */
   $(obj_header).append(cnt_title);
   $(obj_header).append(cnt_btn_x);
   $(obj_footer).append("<h2>"+ cnt_desc[0].h +"<\/h2>");
   $(obj_footer).append(cnt_btn_arrowdown);
   $(obj_footer).append("<p class='subtitle'>"+ cnt_desc[0].p +"<\/p>");
-  /* put graphics on the canvas */
-
+  /* put graphics on the content area */
+  $(obj_content).append(content_wheel);
+  $(obj_content).append(content_beadOpacity);
   /* put text components on the screen */
-  $(obj_canvas).appendTo(obj_screen);
+  $(obj_content).appendTo(obj_screen);
   $(obj_header).appendTo(obj_screen);
   $(obj_footer).appendTo(obj_screen);
+  $(obj_scroller).appendTo(obj_screen);
   $(obj_screen).appendTo("body");
-  /* calculate canvas size and put it on the screen */
+  /* calculate content area size and put it on the screen */
   setTimeout(function(){
     $(obj_screen).toggleClass('hide');
   }, 100);
   /*
-  $('#help-canvas').css({
+  $('#help-content').css({
     'top': $('#help-header').height(),
     'height': 'calc(100vh -' + $('#help-header').height() + $('#help-footer').height() +')'
   });
@@ -68,4 +74,16 @@ function clickClose(){
     var target = $(this).closest('.screen');
     target.addClass('hide');
   });
+}
+
+function checkScroll(){
+  $('#screen-help').scroll(function(){
+    var scr = - $("#help-scroller").offset().top / $(window).height();
+    $("#help-colorwheel").css({
+      'opacity': rangeResult(scr, 0, 2/3, 1, 0),
+      'transform': 'translateY(calc('+rangeResult(scr, 1/3, 2/3, 0, -200)+'px - 50%))'
+    });
+    console.log(rangeResult(scr, 1/3, 2/3, 0, 200));
+  });
+
 }

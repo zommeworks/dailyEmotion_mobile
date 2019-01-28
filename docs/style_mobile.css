@@ -37,6 +37,7 @@
 	/*fundamentals*/
 	--cbox-w: 33.33vw;
 	--cbox-wmax: 200;
+	--max-w: 800px;
 
 	/*animations*/
 	--effect-blur: blur 0.5s forwards;
@@ -244,7 +245,7 @@ div {
 .canvasbox {
 	width: 100%;
 }
-#help-canvas.canvasbox{
+#help-content.canvasbox{
 	top: calc(var(--panel-height) + 1.4*var(--p-h1-size));
 	height: calc(100vh - (2*var(--panel-height) + 4.4*var(--p-h1-size)));
 }
@@ -262,7 +263,7 @@ div {
 	width: 100vw;
 	height: 100vh;
 	overflow-x: hidden;
-	overflow-y: scroll;
+	/*overflow-y: scroll;*/
 	-webkit-transition: all .5s linear;
 	transition: all .5s linear;
 }
@@ -356,8 +357,33 @@ div {
 	width: 100%;
 	height: 400vh;
 }
+#help-colorwheel {
+	position: absolute;
+	width: calc(100vw - var(--padding-min)*2);
+	max-width: var(--max-w);
+	height: calc(100vw - var(--padding-min)*2);
+	max-height: 100%;
+	background-image: url('src/img/illust_chromecircle.png');
+	background-size:contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	top: 50%;
+	padding: 0 var(--padding-min);
+	transform: translateY(-50%);
+}
+#help-bead-opacity {
+	position: absolute;
+	width: var(--d-1);
+	height: var(--d-1);
+	background-color: #00593B;
+	border-radius: 100%;
+	border-style: solid;
+	border-color: white;
+	border-width: 2px;
+	box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+	transform: translate(-50%, -50%);
 
-
+}
 
 /********************
   content definition
@@ -519,7 +545,10 @@ div {
 .helpcontent {
 	position: fixed;
 }
-
+.align-center {
+	left: 50%;
+	top: 50%;
+}
 
 /*******************
  * size definition *
