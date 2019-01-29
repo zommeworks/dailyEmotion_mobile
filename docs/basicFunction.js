@@ -1,55 +1,9 @@
-// DESKTOP
-// spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
-// left: 37, up: 38, right: 39, down: 40,
-// (Source: http://stackoverflow.com/a/4770179)
-/*
-var keys = [32,33,34,35,36,37,38,39,40];
-
-function preventDefault(e) {
-  e = e || window.event;
-  if (e.preventDefault)
-      e.preventDefault();
-  e.returnValue = false;
-}
-
-function keydown(e) {
-    for (var i = keys.length; i--;) {
-        if (e.keyCode === keys[i]) {
-            preventDefault(e);
-            return;
-        }
-    }
-}
-
-function wheel(e) {
-  preventDefault(e);
-}
-
-function disableScroll() {
-  if (window.addEventListener) {
-      window.addEventListener('DOMMouseScroll', wheel, false);
-  }
-  window.onmousewheel = document.onmousewheel = wheel;
-  document.onkeydown = keydown;
-  disableScrollMobile();
-}
-
-function enableScroll() {
-    if (window.removeEventListener) {
-        window.removeEventListener('DOMMouseScroll', wheel, false);
-    }
-    window.onmousewheel = document.onmousewheel = document.onkeydown = null;
-  	enableScrollMobile();
-}
-
-// MOBILE
-function disableScrollMobile(){
-  document.addEventListener('touchmove',preventDefault, false);
-}
-function enableScrollMobile(){
-  document.removeEventListener('touchmove',preventDefault, false);
-}
-*/
+var RANGE_LOCK = Object.freeze({
+	NONE: 1,
+	START: 2,
+	END: 3,
+	BOTH: 4
+});
 
 function ShuffleArray(o) {
 	for(var j, x, i = o.length; i; j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
@@ -60,17 +14,78 @@ function between(x, min, max){
 	return x >= min && x < max;
 }
 
-function rangeResult(x, x1, x2, y1, y2){
+function rangeResult(x, x1, x2, y1, y2, lock){
 	var y = (y2 - y1)/(x2 - x1)*(x - x1) + y1;
 	var result;
-	if(x < x1){
-		result = y1;
+	switch(lock){
+		case RANGE_LOCK.NONE:
+			if(x >= x1 && x < x2){
+				result = y;
+				return result;
+			}
+			break;
+		case RANGE_LOCK.START:
+			if(x < x1){
+				result = y1;
+				return result;
+			}
+			else if(x < x2){
+				result = y;
+				return result;
+			}
+			else{
+				//do nothing
+			}
+			break;
+		case RANGE_LOCK.END:
+			if(x > x2){
+				result = y2;
+				return result;
+			}
+			else if(x >= x1){
+				result = y;
+				return result;
+			}
+			else{
+				//donothing
+			}
+			break;
+		case RANGE_LOCK.BOTH:
+			if(x < x1){
+				result = y1;
+			}
+			else if(x > x2){
+				result = y2;
+			}
+			else{
+				result = y;
+			}
+			return result;
+			break;
 	}
-	else if(x > x2){
-		result = y2;
+}
+
+function radialToCartesian(target, reference, container, ratioR, deg, doit){
+	var r = Math.min($(reference).width(), $(reference).height())/2;
+	var centerX = $(container).width()/2;
+	var centerY = $(container).height()/2;
+	var degPi = deg / 180 * Math.PI;
+	if(doit){
+		$(target).css({
+			'left': centerX + r * ratioR * Math.cos(degPi),
+			'top': centerY + r * ratioR * Math.sin(degPi) * (-1)
+		});
 	}
-	else{
-		result = y;
+	var obj = {
+		x: centerX + r * ratioR * Math.cos(degPi),
+		y: centerY + r * ratioR * Math.sin(degPi) * (-1)
 	}
-	return result;
+	return obj;
+	/*
+	var obj ={
+		x = centerX + r * ratioR * Math.cos(degPi),
+		y = centerY + r * ratioR * Math.sin(degPi)
+	}
+	return obj;
+	*/
 }

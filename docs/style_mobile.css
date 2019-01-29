@@ -65,6 +65,7 @@ h1{
 	position: relative;
 	color: #222222;
 	text-align: left;
+	font-family: 'Gothic A1', sans-serif;
 	font-weight: 600;
 	font-size: var(--h1-size);
 	margin-top: var(--padding-min);
@@ -77,11 +78,13 @@ h2 {
 	position: relative;
 	color: #222222;
 	text-align: left;
+	font-family: 'Gothic A1', sans-serif;
 	font-weight: 600;
 	font-size: calc( var(--h1-size) * 3 / 4 );
 	margin-bottom: var(--padding-min);
 }
 p{
+	font-family: 'Gothic A1', sans-serif;
 	font-weight: 400;
 	font-size: var(--h1-size);
 	margin-bottom: var(--padding-min);
@@ -264,6 +267,7 @@ div {
 	height: 100vh;
 	overflow-x: hidden;
 	/*overflow-y: scroll;*/
+	scroll-behavior: smooth;
 	-webkit-transition: all .5s linear;
 	transition: all .5s linear;
 }
@@ -363,19 +367,20 @@ div {
 	max-width: var(--max-w);
 	height: calc(100vw - var(--padding-min)*2);
 	max-height: 100%;
-	background-image: url('src/img/illust_chromecircle.png');
+	background-image: url('src/img/illust_chromecircle.svg');
 	background-size:contain;
 	background-repeat: no-repeat;
 	background-position: center;
 	top: 50%;
-	padding: 0 var(--padding-min);
+	margin: 0 var(--padding-min);
 	transform: translateY(-50%);
 }
-#help-bead-opacity {
+#help-bead-opacity-1,
+#help-bead-opacity-2,
+#help-bead-opacity-3,
+#help-bead-opacity-4,
+#help-bead-opacity-5 {
 	position: absolute;
-	width: var(--d-1);
-	height: var(--d-1);
-	background-color: #00593B;
 	border-radius: 100%;
 	border-style: solid;
 	border-color: white;
@@ -384,6 +389,73 @@ div {
 	transform: translate(-50%, -50%);
 
 }
+#help-bead-opacity-1,
+#help-bead-opacity-2,
+#help-bead-opacity-3,
+#help-bead-opacity-4 {
+	position: absolute;
+	width: var(--d-2);
+	height: var(--d-2);
+	opacity: 0;
+}
+#help-bead-opacity-1 {
+	background-color: rgba(0, 91, 58, 0.2);
+}
+#help-bead-opacity-2 {
+	background-color: rgba(0, 91, 58, 0.4);
+}
+#help-bead-opacity-3 {
+	background-color: rgba(0, 91, 58, 0.6);
+}
+#help-bead-opacity-4 {
+	background-color: rgba(0, 91, 58, 0.8);
+}
+#help-bead-opacity-5 {
+	width: calc(var(--d-3)/4);
+	height: calc(var(--d-3)/4);
+	background-color: var(--c3);
+}
+
+#help-bead-scale-1,
+#help-bead-scale-2,
+#help-bead-scale-3,
+#help-bead-scale-4,
+#help-bead-scale-5 {
+	position: absolute;
+	border-radius: 100%;
+	border-style: solid;
+	border-color: white;
+	border-width: 2px;
+	box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+	left: calc(100vw + var(--d-5));
+	transform: translate(-50%, -50%);
+	background-color: rgba(0, 91, 58, 0.8);
+}
+#help-bead-scale-1 {
+	width: var(--d-1);
+	height: var(--d-1);
+	top: var(--d-1);
+}
+#help-bead-scale-2 {
+	width: var(--d-2);
+	height: var(--d-2);
+}
+#help-bead-scale-3 {
+	width: var(--d-3);
+	height: var(--d-3);
+	top: calc(var(--d-3)/2 + 2 * (100% - (var(--d-1) + var(--d-5)) / 2) / 4);
+}
+#help-bead-scale-4 {
+	width: var(--d-4);
+	height: var(--d-4);
+	top: calc(var(--d-3)/2 + 3 * (100% - (var(--d-1) + var(--d-5)) / 2) / 4);
+}
+#help-bead-scale-5 {
+	width: var(--d-5);
+	height: var(--d-5);
+	top: calc(var(--d-3)/2 + 4 * (100% - (var(--d-1) + var(--d-5)) / 2) / 4);
+}
+
 
 /********************
   content definition
@@ -527,7 +599,27 @@ div {
 	background-position: bottom;
 	animation: arrow-swing 3.2s ease-in-out infinite;
 }
-
+#help-bead-base,
+#help-bead-filling,
+#help-bead-glow {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+#help-bead-shadow {
+	display: block;
+	content: '';
+	background-image: url('src/img/bead_shadow_sample.png');
+	background-size:contain;
+	background-repeat: no-repeat;
+	background-position: center;
+	position: absolute;
+	width: calc(var(--d-3)*2);
+	height: calc(var(--d-3)*2);
+	transform: translateX(calc((-1)*var(--d-3)));
+}
 
 
 
