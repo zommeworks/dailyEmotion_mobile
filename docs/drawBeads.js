@@ -22,7 +22,7 @@ var DATA_LENGTH = 6; //date, day, spectrum, intensity, duration, note
 var SCREEN_STATE_ENUM = Object.freeze({
 	LIST: 1,
 	END: 2,
-	DESC: 3,
+	HELP: 3,
 	OVER: 4
 });
 var screenState;
@@ -57,6 +57,8 @@ $(document).ready(function(){
 	loadSheetData(googleSpreadsheet);
 	googleSpreadsheet.load(function(){
 		putBeads(beads);
+		putHelp();
+		checkScroll();
 		loadingEffect();
 		clickBeads();
 		clickHelp();
@@ -109,7 +111,7 @@ function putBeads(beadsObj){
 	for(i = 1; i <= 5; i++){
 		var target = "<div class='bead-size-"+i+"'></div>";
 		var beadGhost = $(target).hide().appendTo("body");
-		rad_all.push(beadGhost.css('width').replace('px', ''));
+		rad_all.push(parseInt(beadGhost.css('width').replace('px', '')));
 		beadGhost.remove();
 	}
 	$.each(beadsObj, function(i, item){
@@ -191,7 +193,6 @@ function loadingEffect(){
 	setTimeout(function(){
 		$('#panel').toggleClass('show');
 	}, 200);
-	putHelp();
 }
 
 function clickBeads(){
@@ -330,11 +331,8 @@ function hideNote(){
 function clickHelp(){
 	$('#help').click(function(){
 		$("#screen-beads").toggleClass('blur');
-		//setScrollBehavior('body', 'hidden');
-		//setAnimation('#container', 'var(--effect-blur)');
-		//setAnimation('#panel', 'var(--effect-blur)');
-		//$('#container').css('animation', 'var(--effect-blur) running');
-		//$('#panel').css('animation', 'var(--effect-blur) running');
+		$("#screen-help").scrollTop(0);
+		screenState = SCREEN_STATE_ENUM.HELP;
 		drawHelp();
 	});
 }
@@ -355,26 +353,10 @@ function setAnimation(obj, behavior){
 	*/
 }
 
-function putHelp(){
-  var obj_screen = $("<div id='screen-help' class='screen hide'><\/div>");
-  var obj_scroller = $("<div id='help-scroller'><\/div>");
-  var obj_header = $("<div id='help-header' class='helpcontent textbox align-top'><\/div>");
-  var obj_footer = $("<div id='help-footer' class='helpcontent textbox align-bottom'><\/div>");
-  var obj_canvas = $("<canvas id='help-canvas' class='helpcontent canvasbox'><\/canvas>");
-  $(obj_header).append(cnt_title);
-  $(obj_header).append(cnt_btn_x);
-  $(obj_footer).append("<h2>"+ cnt_desc[0].h +"<\/h2>");
-  $(obj_footer).append(cnt_btn_arrowdown);
-  $(obj_footer).append("<p class='subtitle'>"+ cnt_desc[0].p +"<\/p>");
-  /* put text components on the screen */
-  $(obj_header).appendTo(obj_screen);
-  $(obj_footer).appendTo(obj_screen);
-	$(obj_canvas).appendTo(obj_screen);
-  $(obj_screen).appendTo("body");
-}
-
 function drawHelp(){
-	$("#screen-help").toggleClass('hide');
+	$("#screen-help").ready(function(){
+		$("#screen-help").toggleClass('hide');
+	});
 }
 
 function setScrollBehavior(target, behavior){
@@ -384,10 +366,12 @@ function setScrollBehavior(target, behavior){
 function clickClose(){
   $('.button-close').click(function(){
     var target = $(this).closest('.screen');
-		if(screenState != SCREEN_STATE_ENUM.END){
-	    target.addClass('hide');
-			setAnimation('#screen-beads', 'var(--effect-blur) reverse');
-			screenState = SCREEN_STATE_ENUM.LIST;
+    target.toggleClass('hide');
+		switch(screenState){
+			case SCREEN_STATE_ENUM.HELP:
+				$("#screen-beads").removeClass('blur');
+				screenState = SCREEN_STATE_ENUM.LIST;
+				break;
 		}
   });
 }

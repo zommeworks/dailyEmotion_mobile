@@ -1,28 +1,3 @@
-var SCREEN_STATE_ENUM = Object.freeze({
-	LIST: 1,
-	END: 2,
-	DESC: 3,
-	OVER: 4
-});
-var screenState;
-var rad_all = [60, 80, 100, 120, 150];
-
-
-
-
-
-$(document).on('contextmenu', function(){
-	return false;
-});
-
-$(document).ready(function(){
-	screenState = SCREEN_STATE_ENUM.DESC;
-	setCSS();
-  putHelp();
-  clickClose();
-  checkScroll();
-});
-
 function setCSS(){
 	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
 		//console.log('mobile browser');
@@ -72,17 +47,6 @@ function putHelp(){
   $(obj_footer).appendTo(obj_screen);
   $(obj_scroller).appendTo(obj_screen);
   $(obj_screen).appendTo("body");
-  /* calculate content area size and put it on the screen */
-	$(obj_screen).ready(function(){
-    $(obj_screen).toggleClass('hide');
-  });
-}
-
-function clickClose(){
-  $('.button-close').click(function(){
-    var target = $(this).closest('.screen');
-    target.addClass('hide');
-  });
 }
 
 function checkScroll(){
