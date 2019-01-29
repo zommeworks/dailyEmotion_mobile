@@ -259,6 +259,7 @@ div {
 	overflow-y: auto;
 	-webkit-transition: all .3s ease-in-out;
 	transition: all .3s ease-in-out;
+	-webkit-overflow-scrolling: touch;
 }
 #screen-help {
 	position: fixed;
