@@ -223,15 +223,11 @@ p.subtitle {
 ::-webkit-scrollbar {
   width: 0px;
 }
-html {
-	overflow: hidden;
-}
 body{
 	margin: 0;
 	touch-action: pan-y;
 	width: 100vw;
 	height: 100vh;
-	overflow: hidden;
 	background-color: #e0d1ca;
 	-webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none;   /* Chrome/Safari/Opera */
@@ -645,7 +641,7 @@ body{
 	overflow: hidden;
 }
 .screen {
-	
+	position: fixed;
 }
 
 /*******************
