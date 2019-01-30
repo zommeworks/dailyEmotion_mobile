@@ -333,7 +333,8 @@ function hideNote(){
 function clickHelp(){
 	$('#help').click(function(){
 		$("#container").css('animation','');
-		$("#screen-beads").toggleClass('blur');
+		$("#screen-beads").removeClass('sharp');
+		$("#screen-beads").addClass('blur');
 		$("#panel").toggleClass('blur');
 		$("#screen-help").scrollTop(0);
 		$("#screen-beads").addClass('lock');
@@ -375,8 +376,9 @@ function clickClose(){
 		switch(screenState){
 			case SCREEN_STATE_ENUM.HELP:
 				$("#screen-beads").removeClass('blur');
+				$("#screen-beads").addClass('sharp');
 				$("#screen-beads").removeClass('lock');
-				$("#panel").removeClass('blur');
+				$("#panel").toggleClass('blur');
 				screenState = SCREEN_STATE_ENUM.LIST;
 				break;
 		}
