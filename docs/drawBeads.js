@@ -57,14 +57,14 @@ $(document).ready(function(){
 	loadSheetData(googleSpreadsheet);
 	googleSpreadsheet.load(function(){
 		putBeads(beads);
-		$("#screen-beads").ready(function(){
+		//$("#screen-beads").ready(function(){
 			loadingEffect();
 			//putHelp();
 			//checkScroll();
 			clickBeads();
 			//clickHelp();
 			clickClose();
-		});
+		//});
 	});
 });
 
