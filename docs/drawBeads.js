@@ -150,7 +150,9 @@ function putBeads(beadsObj){
 		item['x'] = item.rad + Math.random()*120;
 		//put beads
 		var obj_entry = $("<div class='bead-entry'></div>");
-		var obj_placeholder = $("<div class='bead-placeholder'></div>");
+		var obj_placeholder = $("<div class='bead-placeholder'><\/div>");
+		var obj_point_shadow = $("<div class='bead-point-shadow'><\/div>");
+		var obj_point_bead = $("<div class='bead-point-bead'><\/div>");
 		var obj_shadow = $("<div class='bead-shadow'></div>");
 		var obj_bead = $("<div class='bead-base'></div>");
 		var obj_filling = $("<div class='bead-filling'></div>");
@@ -169,10 +171,12 @@ function putBeads(beadsObj){
 		$(obj_filling).css('transform', "translate(50%, -50%) rotate("+item.deg+"deg)");
 		//put beads
 		if(Date.parse(item.date) <= Date.now()){
-			$(obj_placeholder).append(obj_shadow);
-			$(obj_placeholder).append(obj_bead);
-			$(obj_placeholder).append(obj_filling);
-			$(obj_placeholder).append(obj_glow);
+			$(obj_point_shadow).append(obj_shadow);
+			$(obj_point_bead).append(obj_bead);
+			$(obj_point_bead).append(obj_filling);
+			$(obj_point_bead).append(obj_glow);
+			$(obj_placeholder).append(obj_point_shadow);
+			$(obj_placeholder).append(obj_point_bead);
 			$(obj_entry).append(obj_placeholder);
 			$(obj_entry).appendTo(obj_container);
 			item['y'] = $(obj_placeholder).offset().top;
@@ -266,6 +270,8 @@ function beadsExpand(target){
 				'-webkit-transform': 'translateY('+ (-1)*old.targetOffset +'px)',
 				'transform': 'translateY('+ (-1)*old.targetOffset +'px)'
 			});
+			/* start motion animation */
+			emotionMotion($(entry).attr('id'));
 			$.each(removeIntervalSwitch, function(i, item){
 				clearInterval(item);
 			});
@@ -279,6 +285,7 @@ function beadsList(){
 	var screen = $(entry).closest('.screen');
 	var container = $("#container");
 	/*animation*/
+	resetEmotionMotion(old.id);
 	$(entry).css('height', beads[old.id].height);
 	$(placeholder).css('right', beads[old.id].x);
 	$(container).css({
@@ -387,4 +394,21 @@ function clickClose(){
 				break;
 		}
   });
+}
+
+function emotionMotion(id){
+	var i = parseInt(beads[parseInt(id)].spectrum);
+	console.log(i);
+	if(i != 0){
+		$("#"+id+" .bead-point-bead").css('animation', 'var(--effect-emotion-'+i+'-bead)');
+		$("#"+id+" .bead-point-shadow").css('animation', 'var(--effect-emotion-'+i+'-shadow)');
+	}
+}
+function resetEmotionMotion(id){
+	$("#"+id+" .bead-point-bead").css('animation', 'var(--effect-to-center)');
+	$("#"+id+" .bead-point-shadow").css('animation', 'var(--effect-to-center)');
+	setTimeout(function(){
+		$("#"+id+" .bead-point-bead").css('animation', '');
+		$("#"+id+" .bead-point-shadow").css('animation', '');
+	}, 600);
 }
