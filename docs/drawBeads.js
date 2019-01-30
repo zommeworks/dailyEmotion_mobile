@@ -60,7 +60,7 @@ $(document).ready(function(){
 		$("#screen-beads").ready(function(){
 			loadingEffect();
 			putHelp();
-			checkScroll();
+			//checkScroll();
 			clickBeads();
 			clickHelp();
 			clickClose();
