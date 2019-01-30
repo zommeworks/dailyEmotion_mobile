@@ -59,10 +59,10 @@ $(document).ready(function(){
 		putBeads(beads);
 		$("#screen-beads").ready(function(){
 			loadingEffect();
-			putHelp();
+			//putHelp();
 			//checkScroll();
 			clickBeads();
-			clickHelp();
+			//clickHelp();
 			clickClose();
 		});
 	});
