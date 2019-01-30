@@ -1,14 +1,3 @@
-function setCSS(){
-	if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-		//console.log('mobile browser');
-	 	$("head").append("<link rel='stylesheet' href='style_mobile.css' type='text/css' media='screen' />");
-	}
-	else{
-		//console.log('pc browser');
-		$("head").append("<link rel='stylesheet' href='style_mobile.css' type='text/css' media='screen' />");
-	}
-}
-
 function putHelp(){
   var obj_screen = $("<div id='screen-help' class='screen hide'><\/div>");
   var obj_scroller = $("<div id='help-scroller'><\/div>");
@@ -103,7 +92,7 @@ function checkScroll(){
 			beadOpacity_dest_2.push(coord2);
 		}
 	});
-  $('#screen-help').scroll(function(){
+  $('#screen-help').scroll(function(){if(screenState == SCREEN_STATE_ENUM.HELP){
     var scr = - $("#help-scroller").offset().top / $(window).height();
     $(content_wheel).css({
       'opacity': rangeResult(scr, 0, 2/3, 1, 0, RANGE_LOCK.BOTH),
@@ -227,6 +216,6 @@ function checkScroll(){
 			$("#help-footer").children("h2").css('opacity', rangeResult(scr, 2.5, 2.8, 0, 1, RANGE_LOCK.BOTH));
 			$("#help-footer").children("p").css('opacity', rangeResult(scr, 2.5, 2.8, 0, 1, RANGE_LOCK.BOTH));
 		}
-  });
+  }});
 
 }

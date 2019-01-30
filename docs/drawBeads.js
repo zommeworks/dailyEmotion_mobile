@@ -56,13 +56,15 @@ $(document).ready(function(){
 	setCSS();
 	loadSheetData(googleSpreadsheet);
 	googleSpreadsheet.load(function(){
-		putBeads(beads);
-		putHelp();
-		checkScroll();
-		loadingEffect();
-		clickBeads();
-		clickHelp();
-		clickClose();
+		$("#screen-beads").ready(function(){
+			putBeads(beads);
+			loadingEffect();
+			putHelp();
+			checkScroll();
+			clickBeads();
+			clickHelp();
+			clickClose();
+		});
 	});
 });
 
@@ -187,8 +189,8 @@ function loadingEffect(){
 	var screen = $("#screen-beads");
 	$('#container').css('animation', 'var(--effect-fadein)');
 	screen.scrollTop($("#container").height());
-	$(note).appendTo(screen);
-	$(footer).appendTo(screen);
+	$(note).appendTo("body");
+	$(footer).appendTo("body");
 	$('#spinner').hide();
 	setTimeout(function(){
 		$('#panel').toggleClass('show');
@@ -226,7 +228,6 @@ function beadsExpand(target){
 	//setScrollBehavior(screen, 'hidden');
 	/* animate */
 	$('#panel').toggleClass('whiteout');
-	$('html, body').toggleClass('lock');
 	$('.bead-entry').each(function(i, item){
 		var restof = $(item).find('.bead-placeholder');
 		var yPos = $(restof).offset().top;
@@ -331,7 +332,9 @@ function hideNote(){
 function clickHelp(){
 	$('#help').click(function(){
 		$("#screen-beads").toggleClass('blur');
+		$("#panel").toggleClass('blur');
 		$("#screen-help").scrollTop(0);
+		$("#screen-beads").addClass('lock');
 		screenState = SCREEN_STATE_ENUM.HELP;
 		drawHelp();
 	});
@@ -370,6 +373,8 @@ function clickClose(){
 		switch(screenState){
 			case SCREEN_STATE_ENUM.HELP:
 				$("#screen-beads").removeClass('blur');
+				$("#screen-beads").removeClass('lock');
+				$("#panel").removeClass('blur');
 				screenState = SCREEN_STATE_ENUM.LIST;
 				break;
 		}

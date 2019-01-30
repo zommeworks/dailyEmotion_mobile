@@ -60,6 +60,7 @@ body{
 	color: #222222;
 	user-select: none;
 	-webkit-user-select: none;
+	overflow: hidden;
 }
 h1{
 	position: relative;
@@ -138,9 +139,9 @@ p.subtitle {
 	opacity: 0;
 	visibility: hidden;
 }
-.screen.blur {
-	-webkit-filter: blur(60px);
-	filter: blur(60px);
+.blur {
+	-webkit-filter: blur(40px);
+	filter: blur(40px);
 }
 @keyframes spinner1 {
 	0% {transform: rotate(30deg);}
@@ -165,8 +166,8 @@ p.subtitle {
 }
 @keyframes fadein {
 	from {
-		-webkit-filter: blur(60px);
-		filter: blur(60px);
+		-webkit-filter: blur(40px);
+		filter: blur(40px);
 		opacity: 0;
 	}
 	to {
@@ -222,7 +223,9 @@ p.subtitle {
 ::-webkit-scrollbar {
   width: 0px;
 }
-
+html {
+	overflow: hidden;
+}
 body{
 	margin: 0;
 	touch-action: pan-y;
@@ -237,9 +240,6 @@ body{
   -ms-user-select: none;       /* Internet Explorer/Edge*/
    user-select: none;          /* Non-prefixed version, currently
                                   not supported by any browser */
-}
-div {
-	touch-action: pan-y;
 }
 .textbox{
 	box-sizing: border-box;
@@ -257,8 +257,8 @@ div {
 	height: 100vh;
 	overflow-x: hidden;
 	overflow-y: auto;
-	-webkit-transition: all .3s ease-in-out;
-	transition: all .3s ease-in-out;
+	-webkit-transition: all .5s ease-in-out;
+	transition: all .5s ease-in-out;
 	-webkit-overflow-scrolling: touch;
 }
 #screen-help {
@@ -267,9 +267,10 @@ div {
 	width: 100vw;
 	height: 100vh;
 	overflow-x: hidden;
-	/*overflow-y: scroll;*/
+	overflow-y: scroll;
 	-webkit-transition: all .5s linear;
 	transition: all .5s linear;
+	-webkit-overflow-scrolling: touch;
 }
 #container{
 	position: relative;
@@ -506,6 +507,8 @@ div {
 	background-size: 100%;
 	background-blend-mode: screen;
 	right: 0;
+	box-sizing: content-box;
+	border: 2px solid white;
 	-webkit-transform: translate(25%, -25%);
 	transform: translate(25%, -25%);
 }
