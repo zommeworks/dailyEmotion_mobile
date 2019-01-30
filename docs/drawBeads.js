@@ -401,16 +401,14 @@ function emotionMotion(id){
 	console.log(i);
 	if(i != 0){
 		if(i == 2){
-			$("#"+id+" .bead-point-bead").css('animation', 'var(--effect-emotion-'+i+'-h), var(--effect-emotion-'+i+'-v)');
-			$("#"+id+" .bead-point-shadow").css('animation', 'var(--effect-emotion-'+i+'-h), var(--effect-emotion-'+i+'-shadow)');
+			$("#"+id+" .bead-placeholder").addClass('motion-2');
 		}
-		else{
-			$("#"+id+" .bead-point-bead").css('animation', 'var(--effect-emotion-'+i+'-bead)');
-			$("#"+id+" .bead-point-shadow").css('animation', 'var(--effect-emotion-'+i+'-shadow)');
-		}
+		$("#"+id+" .bead-point-bead").css('animation', 'var(--effect-emotion-'+i+'-bead)');
+		$("#"+id+" .bead-point-shadow").css('animation', 'var(--effect-emotion-'+i+'-shadow)');
 	}
 }
 function resetEmotionMotion(id){
+	$("#"+id+" .bead-placeholder").removeClass('motion-2');
 	$("#"+id+" .bead-point-bead").css('animation', 'var(--effect-to-center)');
 	$("#"+id+" .bead-point-shadow").css('animation', 'var(--effect-to-center)');
 	setTimeout(function(){

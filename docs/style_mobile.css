@@ -46,7 +46,7 @@
 	--effect-to-center: to-center .6s forwards;
 	--effect-emotion-1-bead: emotion-1-bead 0.8s ease-in-out infinite;
 	--effect-emotion-1-shadow: emotion-1-shadow 0.8s ease-in-out infinite;
-	--effect-emotion-2-v: emotion-2-v  0.3s cubic-bezier(0.125, 0.5, 0.25, 1) infinite alternate;
+	--effect-emotion-2-bead: emotion-2-bead  0.3s cubic-bezier(0.125, 0.5, 0.25, 1) infinite alternate;
 	--effect-emotion-2-h: emotion-2-h  2.4s linear infinite;
 	--effect-emotion-2-shadow: emotion-2-shadow  0.3s cubic-bezier(0.125, 0.5, 0.25, 1) infinite alternate;
 	--effect-emotion-3-bead: emotion-3-bead 0.75s cubic-bezier(0.125, 0.5, 0.25, 1) infinite alternate-reverse;
@@ -153,6 +153,9 @@ p.subtitle {
 	-webkit-filter: blur(0px);
 	filter: blur(0px);
 }
+.bead-placeholder.motion-2 {
+	animation: var(--effect-emotion-2-h);
+}
 @keyframes spinner1 {
 	0% {transform: rotate(30deg);}
 	50% {transform: rotate(0deg);}
@@ -228,7 +231,7 @@ p.subtitle {
 		transform: transalte(0,0);
 	}
 }
-@keyframes emotion-2-v {
+@keyframes emotion-2-bead {
 	from {
 		transform: translateY(0);
 	}
