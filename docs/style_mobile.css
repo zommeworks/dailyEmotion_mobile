@@ -248,12 +248,12 @@ body{
 	height: calc(100% - (2*var(--panel-height) + 4.4*var(--p-h1-size)));
 }
 #screen-beads {
-	-webkit-transition: all .5s ease-in-out;
-	transition: all .5s ease-in-out;
+	-webkit-transition: -webkit-filter .5s ease-in-out;
+	transition: filter .5s ease-in-out;
 }
 #screen-help {
-	-webkit-transition: all .4s ease-in-out;
-	transition: all .4s ease-in-out;
+	-webkit-transition: opacity .4s ease-in-out;
+	transition: opacity .4s ease-in-out;
 }
 #container{
 	position: relative;
