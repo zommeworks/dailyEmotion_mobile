@@ -187,15 +187,16 @@ function loadingEffect(){
 	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2019년의 어느 날들</h1><div id=\"help\">?<\/div><\/div>";
 	var note = "<div id=\"note\"><h1></h1><p></p><div id=\"note-close\" class=\"button-close\"><\/div><\/div>";
 	var screen = $("#screen-beads");
-	$(screen).toggleClass('blur');
+	$(screen).removeClass('blur');
+	$(screen).addClass('sharp');
 	$(screen).toggleClass('hide');
 	screen.scrollTop($("#container").height());
 	$(note).appendTo("body");
 	$(footer).appendTo("body");
 	$('#spinner').hide();
-	setTimeout(function(){
+	$(screen).ready(function(){
 		$('#panel').toggleClass('show');
-	}, 200);
+	});
 }
 
 function clickBeads(){
@@ -335,7 +336,8 @@ function clickHelp(){
 		$("#container").css('animation','');
 		$("#screen-beads").removeClass('sharp');
 		$("#screen-beads").addClass('blur');
-		$("#panel").toggleClass('blur');
+		$("#panel").removeClass('sharp');
+		$("#panel").addClass('blur');
 		$("#screen-help").scrollTop(0);
 		$("#screen-beads").addClass('lock');
 		screenState = SCREEN_STATE_ENUM.HELP;
@@ -378,7 +380,8 @@ function clickClose(){
 				$("#screen-beads").removeClass('blur');
 				$("#screen-beads").addClass('sharp');
 				$("#screen-beads").removeClass('lock');
-				$("#panel").toggleClass('blur');
+				$("#panel").removeClass('blur');
+				$("#panel").addClass('sharp');
 				screenState = SCREEN_STATE_ENUM.LIST;
 				break;
 		}
