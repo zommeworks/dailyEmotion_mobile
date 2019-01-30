@@ -55,7 +55,7 @@
 @import url('https://fonts.googleapis.com/css?family=Song+Myung');
 */
 @import url('https://fonts.googleapis.com/css?family=Gothic+A1');
-body{
+html, body{
 	font-family: 'Gothic A1', sans-serif;
 	color: #222222;
 	user-select: none;
@@ -249,23 +249,12 @@ body{
 	height: calc(100vh - (2*var(--panel-height) + 4.4*var(--p-h1-size)));
 }
 #screen-beads {
-	width: 100vw;
-	height: 100vh;
-	overflow-x: hidden;
-	overflow-y: auto;
 	-webkit-transition: all .5s ease-in-out;
 	transition: all .5s ease-in-out;
-	-webkit-overflow-scrolling: touch;
 }
 #screen-help {
-	top: 0;
-	width: 100vw;
-	height: 100vh;
-	overflow-x: hidden;
-	overflow-y: scroll;
 	-webkit-transition: all .5s linear;
 	transition: all .5s linear;
-	-webkit-overflow-scrolling: touch;
 }
 #container{
 	position: relative;
@@ -636,12 +625,17 @@ body{
 	left: 50%;
 	top: 50%;
 }
-.lock {
+.lock, #screen-beads.lock, #screen-hlp.lock {
 	touch-action: none;
 	overflow: hidden;
 }
 .screen {
 	position: fixed;
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 /*******************
