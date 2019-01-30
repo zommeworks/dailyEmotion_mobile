@@ -64,6 +64,7 @@ $(document).ready(function(){
 			clickBeads();
 			clickHelp();
 			clickClose();
+			clickArrow();
 		});
 	});
 });

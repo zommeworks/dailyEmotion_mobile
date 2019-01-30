@@ -216,6 +216,39 @@ function checkScroll(){
 			$("#help-footer").children("h2").css('opacity', rangeResult(scr, 2.5, 2.8, 0, 1, RANGE_LOCK.BOTH));
 			$("#help-footer").children("p").css('opacity', rangeResult(scr, 2.5, 2.8, 0, 1, RANGE_LOCK.BOTH));
 		}
+		if(scr >= 2.5){
+			$("#help-arrow").addClass("reverse");
+		}
+		else{
+			$("#help-arrow").removeClass("reverse");
+		}
   }});
 
+}
+
+function clickArrow(){
+	$('#help-arrow').click(function(){
+		var screen = $('#screen-help');
+		var scr = - $("#help-scroller").offset().top / $(window).height();
+		if(scr < 1){
+			$(screen).stop().animate({
+				scrollTop: 1 * $(window).height()
+			}, 1000, 'swing');
+		}
+		else if(scr < 2){
+			$(screen).stop().animate({
+				scrollTop: 2 * $(window).height()
+			}, 1000, 'swing');
+		}
+		else if(scr < 2.5){
+			$(screen).stop().animate({
+				scrollTop: 3 * $(window).height()
+			}, 1000, 'swing');
+		}
+		else {
+			$(screen).stop().animate({
+				scrollTop: 0
+			}, 1000, 'swing');
+		}
+	});
 }

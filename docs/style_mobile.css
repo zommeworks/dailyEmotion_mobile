@@ -327,6 +327,9 @@ body{
 	width: var(--h1-size);
 	height: calc(100% - (var(--panel-height) - var(--h1-size)));
 }
+#help-arrow.reverse {
+	transform: rotate(180deg);
+}
 #help-scroller {
 	pointer-events: none;
 	position: relative;
@@ -585,6 +588,7 @@ body{
 	background-size: var(--h1-size) auto;
 	background-position: bottom;
 	animation: arrow-swing 3.2s ease-in-out infinite;
+	cursor: pointer;
 }
 #help-bead-base,
 #help-bead-filling,
