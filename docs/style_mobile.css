@@ -262,7 +262,6 @@ body{
 	-webkit-overflow-scrolling: touch;
 }
 #screen-help {
-	position: fixed;
 	top: 0;
 	width: 100vw;
 	height: 100vh;
@@ -342,10 +341,6 @@ body{
 }
 .bead-placeholder.center {
 	right: 50%;
-}
-#screen-beads.lock {
-	touch-action: none;
-	overflow: hidden;
 }
 
 
@@ -644,6 +639,13 @@ body{
 .align-center {
 	left: 50%;
 	top: 50%;
+}
+.lock {
+	touch-action: none;
+	overflow: hidden;
+}
+.screen {
+	
 }
 
 /*******************
