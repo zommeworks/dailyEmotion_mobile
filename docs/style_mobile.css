@@ -127,6 +127,7 @@ p.subtitle {
 }
 #panel.hide {
 	opacity: 0;
+	visibility: hidden;
 }
 #note.show {
 	transform: translateY(0);
