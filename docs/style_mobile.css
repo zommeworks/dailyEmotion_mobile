@@ -123,7 +123,7 @@ p.subtitle {
 	bottom: 0;
 	opacity: 1;
 }
-#panel.hide {
+.hide, #panel.hide, #screen-help.hide {
 	opacity: 0;
 	visibility: hidden;
 }
@@ -133,10 +133,6 @@ p.subtitle {
 }
 #note.visible {
 	visibility: visible;
-}
-#screen-help.hide {
-	opacity: 0;
-	visibility: hidden;
 }
 .blur {
 	-webkit-filter: blur(40px);
@@ -252,8 +248,8 @@ body{
 	transition: filter .5s ease-in-out;
 }
 #screen-help {
-	-webkit-transition: opacity .4s ease-in-out;
-	transition: opacity .4s ease-in-out;
+	-webkit-transition: opacity .4s ease-in-out, visibility .4s ease-in-out;
+	transition: opacity .4s ease-in-out, visibility .4s ease-in-out;
 }
 #container{
 	position: relative;
@@ -262,8 +258,8 @@ body{
 	box-sizing: border-box;
 	background-color: #e0d1ca;
 	overflow: hidden;
-	-webkit-transition: all .3s ease-in-out;
-	transition: all .3s ease-in-out;
+	-webkit-transition: -webkit-transform .3s ease-in-out;
+	transition: transform .3s ease-in-out;
 }
 #panel, #note{
 	display: block;
@@ -303,16 +299,16 @@ body{
 	display: block;
 	width: auto;
 	left: 0;
-	-webkit-transition: all .3s ease-in-out;
-	transition: all .3s ease-in-out;
+	-webkit-transition: height .3s ease-in-out;
+	transition: height .3s ease-in-out;
 }
 .bead-placeholder{
 	position: absolute;
 	display: block;
 	right: 0;
 	top: 50%;
-	-webkit-transition: all .3s ease-in-out;
-	transition: all .3s ease-in-out;
+	-webkit-transition: right .3s ease-in-out;
+	transition: right .3s ease-in-out;
 }
 .bead-placeholder.center {
 	right: 50%;

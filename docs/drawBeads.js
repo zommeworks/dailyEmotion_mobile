@@ -106,7 +106,7 @@ function loadSheetData(sheet){
 
 function putBeads(beadsObj){
 	/* create screen */
-	var obj_screen = $("<div id='screen-beads' class='screen'><\/div>");
+	var obj_screen = $("<div id='screen-beads' class='screen blur hide'><\/div>");
 	var obj_container = $("<div id='container'><\/div>");
 	$(obj_screen).append(obj_container);
 	//retrieve radius
@@ -187,7 +187,8 @@ function loadingEffect(){
 	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2019년의 어느 날들</h1><div id=\"help\">?<\/div><\/div>";
 	var note = "<div id=\"note\"><h1></h1><p></p><div id=\"note-close\" class=\"button-close\"><\/div><\/div>";
 	var screen = $("#screen-beads");
-	$('#container').css('animation', 'var(--effect-fadein)');
+	$(screen).toggleClass('blur');
+	$(screen).toggleClass('hide');
 	screen.scrollTop($("#container").height());
 	$(note).appendTo("body");
 	$(footer).appendTo("body");
