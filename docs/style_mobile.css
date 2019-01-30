@@ -224,9 +224,8 @@ p.subtitle {
 }
 body{
 	margin: 0;
-	touch-action: pan-y;
 	width: 100vw;
-	height: 100vh;
+	height: 100%;
 	background-color: #e0d1ca;
 	-webkit-tap-highlight-color: transparent;
 	-webkit-touch-callout: none; /* iOS Safari */
@@ -246,7 +245,7 @@ body{
 }
 #help-content.canvasbox{
 	top: calc(var(--panel-height) + 1.4*var(--p-h1-size));
-	height: calc(100vh - (2*var(--panel-height) + 4.4*var(--p-h1-size)));
+	height: calc(100% - (2*var(--panel-height) + 4.4*var(--p-h1-size)));
 }
 #screen-beads {
 	-webkit-transition: all .5s ease-in-out;
@@ -263,17 +262,8 @@ body{
 	box-sizing: border-box;
 	background-color: #e0d1ca;
 	overflow: hidden;
-	touch-action: pan-y;
 	-webkit-transition: all .3s ease-in-out;
 	transition: all .3s ease-in-out;
-}
-#container-bg{
-	position: fixed;
-	display: block;
-	top: 0;
-	width: 100vw;
-	height: 100vh;
-	background: linear-gradient(#faf0eb, #e0d1ca) fixed;
 }
 #panel, #note{
 	display: block;
