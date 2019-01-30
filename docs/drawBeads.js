@@ -331,6 +331,7 @@ function hideNote(){
 
 function clickHelp(){
 	$('#help').click(function(){
+		$("#container").css('animation','');
 		$("#screen-beads").toggleClass('blur');
 		$("#panel").toggleClass('blur');
 		$("#screen-help").scrollTop(0);

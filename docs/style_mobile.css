@@ -252,9 +252,8 @@ body{
 	transition: all .5s ease-in-out;
 }
 #screen-help {
-	overflow-y: scroll;
-	-webkit-transition: all .5s linear;
-	transition: all .5s linear;
+	-webkit-transition: all .4s ease-in-out;
+	transition: all .4s ease-in-out;
 }
 #container{
 	position: relative;
@@ -478,8 +477,6 @@ body{
 	background-size: 100%;
 	background-blend-mode: screen;
 	right: 0;
-	box-sizing: content-box;
-	border: 2px solid white;
 	-webkit-transform: translate(25%, -25%);
 	transform: translate(25%, -25%);
 }
