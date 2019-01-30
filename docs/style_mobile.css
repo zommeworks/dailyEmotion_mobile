@@ -46,8 +46,8 @@
 	--effect-to-center: to-center .6s forwards;
 	--effect-emotion-1-bead: emotion-1-bead 0.8s ease-in-out infinite;
 	--effect-emotion-1-shadow: emotion-1-shadow 0.8s ease-in-out infinite;
-	--effect-emotion-2-bead: emotion-2-bead  2s ease-in-out infinite;
-	--effect-emotion-2-shadow: emotion-2-shadow  2s ease-in-out infinite;
+	--effect-emotion-2-bead: emotion-2-bead  2s infinite;
+	--effect-emotion-2-shadow: emotion-2-shadow  2s infinite;
 	--effect-emotion-3-bead: emotion-3-bead 0.75s cubic-bezier(0.125, 0.5, 0.25, 1) infinite alternate-reverse;
 	--effect-emotion-3-shadow: emotion-3-shadow 0.75s cubic-bezier(0.125, 0.5, 0.25, 1) infinite alternate-reverse;
 	--effect-emotion-4-bead: emotion-4-bead 8s ease-in-out infinite;
@@ -230,24 +230,31 @@ p.subtitle {
 @keyframes emotion-2-bead {
 	0% {
 		transform: translate(0,0);
+		-webkit-animation-timing-function: cubic-bezier(0.125, 0.5, 0.25, 1);
 	}
 	16.67% {
 		transform: translate(calc((-1)*var(--padding-med)/2), calc((-1)*var(--padding-med)));
+		-webkit-animation-timing-function: cubic-bezier(0.25, 0, 0.125, 1);
 	}
 	33.33% {
 		transform: translate(calc((-1)*var(--padding-med)), 0);
+		-webkit-animation-timing-function: cubic-bezier(0.125, 0.5, 0.25, 1);
 	}
 	50% {
 		transform: translate(0, calc((-1)*var(--padding-med)));
+		-webkit-animation-timing-function: cubic-bezier(0.25, 0, 0.125, 1);
 	}
 	66.67% {
 		transform: translate(var(--padding-med), 0);
+		-webkit-animation-timing-function: cubic-bezier(0.125, 0.5, 0.25, 1);
 	}
 	83.33% {
 		transform: translate(calc(var(--padding-med)/2), calc((-1)*var(--padding-med)));
+		-webkit-animation-timing-function: cubic-bezier(0.25, 0, 0.125, 1);
 	}
 	100% {
 		transform: translate(0, 0);
+		-webkit-animation-timing-function: cubic-bezier(0.125, 0.5, 0.25, 1);
 	}
 }
 @keyframes emotion-2-shadow {
@@ -255,19 +262,19 @@ p.subtitle {
 		transform: translate(0,0);
 	}
 	16.67% {
-		transform: translate(calc((-1)*var(--padding-med)/2), calc((-1)*var(--padding-med)/2));
+		transform: translate(calc((-1)*var(--padding-med)/2), calc(var(--padding-med)/2));
 	}
 	33.33% {
 		transform: translate(calc((-1)*var(--padding-med)), 0);
 	}
 	50% {
-		transform: translate(0, calc((-1)*var(--padding-med)/2));
+		transform: translate(0, calc(var(--padding-med)/2));
 	}
 	66.67% {
 		transform: translate(var(--padding-med), 0);
 	}
 	83.33% {
-		transform: translate(calc(var(--padding-med)/2), calc((-1)*var(--padding-med)/2));
+		transform: translate(calc(var(--padding-med)/2), calc(var(--padding-med)/2));
 	}
 	100% {
 		transform: translate(0, 0);
