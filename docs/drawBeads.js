@@ -56,8 +56,8 @@ $(document).ready(function(){
 	setCSS();
 	loadSheetData(googleSpreadsheet);
 	googleSpreadsheet.load(function(){
+		putBeads(beads);
 		$("#screen-beads").ready(function(){
-			putBeads(beads);
 			loadingEffect();
 			putHelp();
 			checkScroll();
