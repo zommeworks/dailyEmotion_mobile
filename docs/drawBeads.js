@@ -274,7 +274,9 @@ function beadsExpand(target){
 				'transform': 'translateY('+ (-1)*old.targetOffset +'px)'
 			});
 			/* start motion animation */
-			emotionMotion($(entry).attr('id'));
+			setTimeout(function(){
+				emotionMotion($(entry).attr('id'));
+			}, 300);
 			$.each(removeIntervalSwitch, function(i, item){
 				clearInterval(item);
 			});
