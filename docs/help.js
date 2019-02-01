@@ -1,19 +1,19 @@
 function putHelp(){
   var obj_screen = $("<div id='screen-help' class='screen hide'><\/div>");
   var obj_scroller = $("<div id='help-scroller'><\/div>");
-  var obj_header = $("<div id='help-header' class='helpcontent textbox align-top'><\/div>");
-  var obj_footer = $("<div id='help-footer' class='helpcontent textbox align-bottom'><\/div>");
+  var obj_header = $("<div id='help-header' class='helpcontent textbox align-top'><div class=\"innerbox\"><\/div><\/div>");
+  var obj_footer = $("<div id='help-footer' class='helpcontent textbox align-bottom'><div class=\"innerbox\"><\/div><\/div>");
   var obj_content = $("<div id='help-content' class='helpcontent canvasbox'><\/div>");
   /* contents */
   var content_wheel = $("<div id='help-colorwheel'><\/div>");
   var content_beadOpacity = [];
 	var content_beadScale = [];
   /* put intialize texts */
-  $(obj_header).append(cnt_title);
-  $(obj_header).append(cnt_btn_x);
-  $(obj_footer).append("<h2>"+ cnt_desc[0].h +"<\/h2>");
-  $(obj_footer).append(cnt_btn_arrowdown);
-  $(obj_footer).append("<p class='subtitle'>"+ cnt_desc[0].p +"<\/p>");
+  $(obj_header).children(".innerbox").append(cnt_title);
+  $(obj_header).children(".innerbox").append(cnt_btn_x);
+  $(obj_footer).children(".innerbox").append("<h2>"+ cnt_desc[0].h +"<\/h2>");
+  $(obj_footer).children(".innerbox").append(cnt_btn_arrowdown);
+  $(obj_footer).children(".innerbox").append("<p class='subtitle'>"+ cnt_desc[0].p +"<\/p>");
   /* put graphics on the content area */
 	$(obj_content).append(content_wheel);
 	$(obj_content, content_wheel).ready(function(){
@@ -181,40 +181,40 @@ function checkScroll(){
 		}
 		/* text animation */
 		if(scr < 0.5){
-			$("#help-footer").children("h2").html(cnt_desc[0].h);
-			$("#help-footer").children("p").html(cnt_desc[0].p);
-			$("#help-footer").children("h2").css('opacity', rangeResult(scr, 0.1, 0.4, 1, 0, RANGE_LOCK.BOTH));
-			$("#help-footer").children("p").css('opacity', rangeResult(scr, 0.1, 0.4, 1, 0, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("h2").html(cnt_desc[0].h);
+			$("#help-footer").children(".innerbox").children("p").html(cnt_desc[0].p);
+			$("#help-footer").children(".innerbox").children("h2").css('opacity', rangeResult(scr, 0.1, 0.4, 1, 0, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("p").css('opacity', rangeResult(scr, 0.1, 0.4, 1, 0, RANGE_LOCK.BOTH));
 		}
 		else if(scr < 1.1){
-			$("#help-footer").children("h2").html(cnt_desc[1].h);
-			$("#help-footer").children("p").html(cnt_desc[1].p);
-			$("#help-footer").children("h2").css('opacity', rangeResult(scr, 0.5, 0.8, 0, 1, RANGE_LOCK.BOTH));
-			$("#help-footer").children("p").css('opacity', rangeResult(scr, 0.5, 0.8, 0, 1, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("h2").html(cnt_desc[1].h);
+			$("#help-footer").children(".innerbox").children("p").html(cnt_desc[1].p);
+			$("#help-footer").children(".innerbox").children("h2").css('opacity', rangeResult(scr, 0.5, 0.8, 0, 1, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("p").css('opacity', rangeResult(scr, 0.5, 0.8, 0, 1, RANGE_LOCK.BOTH));
 		}
 		else if(scr < 1.5){
-			$("#help-footer").children("h2").html(cnt_desc[1].h);
-			$("#help-footer").children("p").html(cnt_desc[1].p);
-			$("#help-footer").children("h2").css('opacity', rangeResult(scr, 1.1, 1.4, 1, 0, RANGE_LOCK.BOTH));
-			$("#help-footer").children("p").css('opacity', rangeResult(scr, 1.1, 1.4, 1, 0, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("h2").html(cnt_desc[1].h);
+			$("#help-footer").children(".innerbox").children("p").html(cnt_desc[1].p);
+			$("#help-footer").children(".innerbox").children("h2").css('opacity', rangeResult(scr, 1.1, 1.4, 1, 0, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("p").css('opacity', rangeResult(scr, 1.1, 1.4, 1, 0, RANGE_LOCK.BOTH));
 		}
 		else if(scr < 2.1){
-			$("#help-footer").children("h2").html(cnt_desc[2].h);
-			$("#help-footer").children("p").html(cnt_desc[2].p);
-			$("#help-footer").children("h2").css('opacity', rangeResult(scr, 1.5, 1.8, 0, 1, RANGE_LOCK.BOTH));
-			$("#help-footer").children("p").css('opacity', rangeResult(scr, 1.5, 1.8, 0, 1, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("h2").html(cnt_desc[2].h);
+			$("#help-footer").children(".innerbox").children("p").html(cnt_desc[2].p);
+			$("#help-footer").children(".innerbox").children("h2").css('opacity', rangeResult(scr, 1.5, 1.8, 0, 1, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("p").css('opacity', rangeResult(scr, 1.5, 1.8, 0, 1, RANGE_LOCK.BOTH));
 		}
 		else if(scr < 2.5){
-			$("#help-footer").children("h2").html(cnt_desc[2].h);
-			$("#help-footer").children("p").html(cnt_desc[2].p);
-			$("#help-footer").children("h2").css('opacity', rangeResult(scr, 2.1, 2.4, 1, 0, RANGE_LOCK.BOTH));
-			$("#help-footer").children("p").css('opacity', rangeResult(scr, 2.1, 2.4, 1, 0, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("h2").html(cnt_desc[2].h);
+			$("#help-footer").children(".innerbox").children("p").html(cnt_desc[2].p);
+			$("#help-footer").children(".innerbox").children("h2").css('opacity', rangeResult(scr, 2.1, 2.4, 1, 0, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("p").css('opacity', rangeResult(scr, 2.1, 2.4, 1, 0, RANGE_LOCK.BOTH));
 		}
 		else{
-			$("#help-footer").children("h2").html(cnt_desc[3].h);
-			$("#help-footer").children("p").html(cnt_desc[3].p);
-			$("#help-footer").children("h2").css('opacity', rangeResult(scr, 2.5, 2.8, 0, 1, RANGE_LOCK.BOTH));
-			$("#help-footer").children("p").css('opacity', rangeResult(scr, 2.5, 2.8, 0, 1, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("h2").html(cnt_desc[3].h);
+			$("#help-footer").children(".innerbox").children("p").html(cnt_desc[3].p);
+			$("#help-footer").children(".innerbox").children("h2").css('opacity', rangeResult(scr, 2.5, 2.8, 0, 1, RANGE_LOCK.BOTH));
+			$("#help-footer").children(".innerbox").children("p").css('opacity', rangeResult(scr, 2.5, 2.8, 0, 1, RANGE_LOCK.BOTH));
 		}
 		if(scr >= 2.5){
 			$("#help-arrow").addClass("reverse");

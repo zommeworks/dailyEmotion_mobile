@@ -194,8 +194,8 @@ function putBeads(beadsObj){
 
 
 function loadingEffect(){
-	var footer = "<div id=\"panel\"><h1 class=\"text-header\">2019년의 어느 날들</h1><div id=\"help\">?<\/div><\/div>";
-	var note = "<div id=\"note\"><h1></h1><p></p><div id=\"note-close\" class=\"button-close\"><\/div><\/div>";
+	var footer = "<div id=\"panel\"><div class=\"innerbox\"><h1 class=\"text-header\">2019년의 어느 날들</h1><div id=\"help\">?<\/div><\/div><\/div>";
+	var note = "<div id=\"note\"><div class=\"innerbox\"><h1></h1><p></p><div id=\"note-close\" class=\"button-close\"><\/div><\/div><\/div>";
 	var screen = $("#screen-beads");
 	$(screen).removeClass('blur');
 	$(screen).addClass('sharp');
@@ -242,8 +242,8 @@ function beadsExpand(target){
 	$('.bead-entry').each(function(i, item){
 		var restof = $(item).find('.bead-placeholder');
 		var yPos = $(restof).offset().top;
-		var windowY0 = $(window).scrollTop() - $(item).height()*2;
-		var windowY1 = windowY0 + $(window).height() + $(item).height()*2;
+		var windowY0 = $(window).scrollTop() - rad_all[4]*2;
+		var windowY1 = windowY0 + $(window).height() + rad_all[4]*2;
 		if(yPos >= windowY0 && yPos < windowY1){
 			if(item.id != old.id){
 				removeList.push(i);
@@ -259,7 +259,7 @@ function beadsExpand(target){
 		$.each(removeListRandom, function(i, item){
 			var tempSwitch = setInterval(function(){
 				var restofMove = $('#'+item).find('.bead-placeholder');
-				$(restofMove).css('right', (-1)*(beads[i].x + beads[i].rad*4));
+				$(restofMove).css('right', (-1)*(rad_all[4]*2));
 			}, i*50);
 			removeIntervalSwitch.push(tempSwitch);
 		});
@@ -320,8 +320,8 @@ function beadsList(){
 function showNote(){
 	var panel = $('#panel');
 	var note = $('#note');
-	$(note).children('h1').text(beads[old.id].date+". "+beads[old.id].day);
-	$(note).children('p').text(beads[old.id].note);
+	$(note).children(".innerbox").children('h1').text(beads[old.id].date+". "+beads[old.id].day);
+	$(note).children(".innerbox").children('p').text(beads[old.id].note);
 	$(panel).toggleClass('hide');
 	$(note).toggleClass('visible');
 	setTimeout(function(){
