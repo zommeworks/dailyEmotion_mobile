@@ -89,3 +89,7 @@ function radialToCartesian(target, reference, container, ratioR, deg, doit){
 	return obj;
 	*/
 }
+
+function degToRad(deg){
+	return Math.PI/180*deg;
+}

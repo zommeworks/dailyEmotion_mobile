@@ -65,6 +65,7 @@ $(document).ready(function(){
 			clickHelp();
 			clickClose();
 			clickArrow();
+			calculateYear();
 		});
 	});
 });
