@@ -1,3 +1,23 @@
+function clickHelp(){
+	$('#help').click(function(){
+		$("#container").css('animation','');
+		$("#screen-beads").removeClass('sharp');
+		$("#screen-beads").addClass('blur');
+		$("#panel").removeClass('sharp');
+		$("#panel").addClass('blur');
+		$("#screen-help").scrollTop(0);
+		$("#screen-beads").addClass('lock');
+		screenState = SCREEN_STATE_ENUM.HELP;
+		drawHelp();
+	});
+}
+
+function drawHelp(){
+	$("#screen-help").ready(function(){
+		$("#screen-help").toggleClass('hide');
+	});
+}
+
 function putHelp(){
   var obj_screen = $("<div id='screen-help' class='screen hide'><\/div>");
   var obj_scroller = $("<div id='help-scroller'><\/div>");

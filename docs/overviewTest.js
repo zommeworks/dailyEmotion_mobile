@@ -1,20 +1,49 @@
-function clickOverview(){
-	$('#panel-hit').click(function(){
-		$("#container").css('animation','');
-		$("#screen-overview").scrollTop(0);
-    $("#screen-overview").removeClass('hide');
-		screenState = SCREEN_STATE_ENUM.OVER;
-	});
-  $("#close-overview").click(function(){
-    $("#screen-overview").toggleClass('hide');
-    $("#screen-overview").css('opacity', 1);
-    $("#screen-beads").removeClass('lock');
-    setTimeout(function(){
-      $("#screen-overview").css('opacity', '');
-    }, 700);
-    screenState = SCREEN_STATE_ENUM.LIST;
+var url_parameter = "https://spreadsheets.google.com/pub?key=16dYCHjSXG7FMwLAa-7c65TYiNZSJd2wOf-0CMN_efjA&hl=kr&output=html";
+var googleSpreadsheet = new GoogleSpreadsheet();
+var beads = []; //beads object array
+var DATA_LENGTH = 6; //date, day, spectrum, intensity, duration, note
+
+
+
+
+
+$(document).ready(function(){
+	loadSheetData(googleSpreadsheet);
+	googleSpreadsheet.load(function(){
+    putOverview();
+    drawOverview();
+  });
+});
+
+
+
+
+
+function loadSheetData(sheet){
+	localStorage.clear();
+	sheet.url(url_parameter);
+	sheet.load(function(result) {
+		var tempObj = {};
+		var sheetIndex = [];// name list of object properties
+		$.each(result.data, function(i, item){
+			var col = Math.round((i/DATA_LENGTH - Math.floor(i/DATA_LENGTH))*DATA_LENGTH);
+			if(Math.floor(i/DATA_LENGTH) == 0){
+				sheetIndex.push(item);
+			}
+			else{
+				var tempIndex = sheetIndex[col];
+				tempObj[tempIndex] = item;
+				if( col === DATA_LENGTH - 1){
+					//update beads object
+					beads.push(tempObj);
+					tempObj = {};
+				}
+			}
+		});
 	});
 }
+
+
 
 function calculateYear(){
   var primaryTemp = {
@@ -99,23 +128,25 @@ function calculateYear(){
     tillNow: dateTillNow,
     recTillNow: dataEachType[1].count + dataEachType[2].count + dataEachType[3].count + dataEachType[4].count + dataEachType[5].count,
   };
+  console.log(output);
   return output;
 }
 
 function putOverview(){
   var overviewData = calculateYear();
   setFacts(overviewData);
-  var obj_screen = $("<div id='screen-overview' class='screen hide'></div>");
+  var obj_screen = $("<div id='screen-overview' class='screen'></div>");
   var obj_container = $("<div id='overview-container'></div>");
   var obj_page1 = $("<div class='overview-page'></div>");
   var obj_canvasbox = $("<div id='overview-canvasbox'><canvas id='overview-canvas'></canvas></div>");
   var obj_footer = $("<div id='overview-footer' class='textbox'><div class='innerbox'><h1></h1><p id='overview-p1' class='small'></p><p id='overview-p2' class='small'></p><p id='overview-p3' class='small'></p></div></div>");
-  var obj_header = $("<div id='overview-header' class='textbox'><div class='innerbox'><h1 class='text-header'></h1><div id='close-overview' class='button-close'></div></div></div>");
+  var obj_header = $("<div id='overview-header' class='textbox'><div class='innerbox'><h1 class='text-header'></h1></div></div>");
   $(obj_footer).children('.innerbox').children('h1').html(cnt_overview_title);
   $(obj_footer).children('.innerbox').children('#overview-p1').html(cnt_overview_p1);
   $(obj_footer).children('.innerbox').children('#overview-p2').html(cnt_overview_p2);
   $(obj_footer).children('.innerbox').children('#overview-p3').html(cnt_overview_p3);
   $(obj_header).children('.innerbox').children('h1').html(cnt_year);
+  $(obj_header).children(".innerbox").append(cnt_btn_x);
   $(obj_page1).append(obj_canvasbox);
   $(obj_page1).append(obj_footer);
   $(obj_page1).appendTo(obj_container);
@@ -204,4 +235,9 @@ function setFacts(data){
   cnt_overview_p1 = `${fact.year}년 중 ${fact.tillNow}일을 살았으며,`;
   cnt_overview_p2 = `그 중 기록을 남긴 날은 ${fact.recorded}일이다.`;
   cnt_overview_p3 = `기록한 날 중 ${fact.adjPrime} 날은 ${fact.countPrime}일이다.`;
+  console.log(cnt_year);
+  console.log(cnt_overview_title);
+  console.log(cnt_overview_p1);
+  console.log(cnt_overview_p2);
+  console.log(cnt_overview_p3);
 }
