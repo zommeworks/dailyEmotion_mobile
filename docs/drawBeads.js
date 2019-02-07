@@ -38,7 +38,9 @@ var removeListRandom;
 var removeIntervalSwitch = []; //interval array
 var recallIntervalSwitch = []; //interval array
 //var url_parameter = "https://spreadsheets.google.com/pub?key=1IqZWY3edz2fGNT8O3uciprX6oElkLu8Vm8-i33CMNyk&hl=kr&output=html";
-var url_parameter = "https://spreadsheets.google.com/pub?key=16dYCHjSXG7FMwLAa-7c65TYiNZSJd2wOf-0CMN_efjA&hl=kr&output=html";
+//var url_parameter = "https://spreadsheets.google.com/pub?key=16dYCHjSXG7FMwLAa-7c65TYiNZSJd2wOf-0CMN_efjA&hl=kr&output=html";
+var url_parameter = "https://spreadsheets.google.com/pub?key="+getURLParameter('key')+"&hl=kr&output=html";
+console.log(url_parameter);
 var googleSpreadsheet = new GoogleSpreadsheet();
 
 
@@ -428,5 +430,16 @@ function setBeadSize(){
 		var beadGhost = $(target).hide().appendTo("body");
 		rad_all.push(parseInt(beadGhost.css('width').replace('px', '')));
 		beadGhost.remove();
+	}
+}
+
+function getURLParameter(sParam){
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split('&');
+  for (var i = 0; i < sURLVariables.length; i++){
+    var sParameterName = sURLVariables[i].split('=');
+    if (sParameterName[0] == sParam){
+      return sParameterName[1];
+    }
 	}
 }
