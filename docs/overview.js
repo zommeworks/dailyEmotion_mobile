@@ -25,6 +25,7 @@ function calculateYear(){
     index: 0,
     value: 0,
   }
+	var yearTemp;
   var dataEachType = [];
   var dateTillNow = 0;
   var output;
@@ -60,6 +61,7 @@ function calculateYear(){
       }
     }
     if(i == beads.length - 1){
+			yearTemp = new Date(item.date).getFullYear();
       var secondaryArray = [];
       var maxSum = Math.max(dataEachType[1].sqrtSum, dataEachType[2].sqrtSum, dataEachType[3].sqrtSum, dataEachType[4].sqrtSum, dataEachType[5].sqrtSum);
       for(j = 1; j <= 5; j++){
@@ -92,6 +94,7 @@ function calculateYear(){
     dataEachType[i].sqrtRatio = (dataEachType[i].sqrtSum / dataEachType[primaryTemp.index].sqrtSum);
   }
   output = {
+		year: yearTemp,
     byType: dataEachType,
     primary: primaryTemp,
     secondary: secondaryTemp,
@@ -99,6 +102,7 @@ function calculateYear(){
     tillNow: dateTillNow,
     recTillNow: dataEachType[1].count + dataEachType[2].count + dataEachType[3].count + dataEachType[4].count + dataEachType[5].count,
   };
+	console.log(output);
   return output;
 }
 
@@ -186,7 +190,14 @@ function drawOverview(){
 }
 
 function setFacts(data){
-  fact.tillNow = data.tillNow;
+	fact.year = data.year;
+	if(fact.year < (new Date()).getFullYear()){
+		fact.tillNow = beads.length;
+	}
+	else {
+		fact.tillNow = data.tillNow;
+	}
+	console.log(fact.tillNow);
   fact.recorded = data.recTillNow;
   if(data.obvious){
     fact.adj1 = wordPool.cnj[1];
@@ -198,10 +209,15 @@ function setFacts(data){
   }
   fact.adjPrime = wordPool.adjp[data.primary.index];
   fact.countPrime = data.byType[data.primary.index].count;
-  ////////
-  cnt_year = `${fact.year}년의 어느 날들`;
+	initializeYear();
+}
+
+
+function initializeYear(){
+	cnt_year = `${fact.year}년의 어느 날들`;
   cnt_overview_title = `${fact.year}년은 ${fact.adj1}<br>${fact.adj2} 한 해이다.`;
   cnt_overview_p1 = `${fact.year}년 중 ${fact.tillNow}일을 살았으며,`;
   cnt_overview_p2 = `그 중 기록을 남긴 날은 ${fact.recorded}일이다.`;
   cnt_overview_p3 = `기록한 날 중 ${fact.adjPrime} 날은 ${fact.countPrime}일이다.`;
+	$("#panel").children(".innerbox").children("h1").html(cnt_year);
 }
