@@ -102,7 +102,6 @@ function calculateYear(){
     tillNow: dateTillNow,
     recTillNow: dataEachType[1].count + dataEachType[2].count + dataEachType[3].count + dataEachType[4].count + dataEachType[5].count,
   };
-	console.log(output);
   return output;
 }
 
@@ -136,6 +135,10 @@ function drawOverview(){
     x: r,
     y: r,
   }
+	var centerMass = {
+		x: 0,
+		y: 0,
+	}
   var strokeWidth = r/90;
   var overviewData = calculateYear();
   var img = new Image();
@@ -144,8 +147,6 @@ function drawOverview(){
     'width': 2*r,
     'height': 2*r,
   });
-  /* draw UI comps */
-
   /* draw graph */
   img.onload = function(){
     ctx.save();
@@ -155,19 +156,33 @@ function drawOverview(){
     ctx.moveTo(center.x + Math.cos(Math.PI*2/5*2)*r*overviewData.byType[1].sqrtRatio,
                center.y - Math.sin(Math.PI*2/5*2)*r*overviewData.byType[1].sqrtRatio);
     for(i = 1; i <= 5 ; i++){
+			var tempPoint = {
+				x: 0,
+				y: 0,
+			}
       if(i == 5){
-        ctx.lineTo(center.x + Math.cos(overviewData.byType[1].rad)*r*overviewData.byType[1].sqrtRatio,
-                   center.y - Math.sin(overviewData.byType[1].rad)*r*overviewData.byType[1].sqrtRatio);
+				tempPoint.x = center.x + Math.cos(overviewData.byType[1].rad)*r*overviewData.byType[1].sqrtRatio;
+				tempPoint.y = center.y - Math.sin(overviewData.byType[1].rad)*r*overviewData.byType[1].sqrtRatio
       }
       else{
-        ctx.lineTo(center.x + Math.cos(overviewData.byType[i+1].rad)*r*overviewData.byType[i+1].sqrtRatio,
-                   center.y - Math.sin(overviewData.byType[i+1].rad)*r*overviewData.byType[i+1].sqrtRatio);
+				tempPoint.x = center.x + Math.cos(overviewData.byType[i+1].rad)*r*overviewData.byType[i+1].sqrtRatio;
+				tempPoint.y = center.y - Math.sin(overviewData.byType[i+1].rad)*r*overviewData.byType[i+1].sqrtRatio;
       }
+			ctx.lineTo(tempPoint.x, tempPoint.y);
+			centerMass.x += tempPoint.x/5;
+			centerMass.y += tempPoint.y/5;
     }
     ctx.stroke();
     ctx.closePath();
     ctx.clip();
     ctx.drawImage(img, 0, 0);
+		/* draw center of mass */
+		ctx.restore();
+		ctx.beginPath();
+		ctx.arc(centerMass.x, centerMass.y, strokeWidth*2, 0, Math.PI*2)
+		ctx.fillStyle = "#FFFFFF";
+		ctx.fill();
+		console.log(centerMass.x+", "+centerMass.y);
     /* draw lines */
     ctx.restore();
     ctx.strokeStyle = "#FFFFFF";
@@ -197,7 +212,6 @@ function setFacts(data){
 	else {
 		fact.tillNow = data.tillNow;
 	}
-	console.log(fact.tillNow);
   fact.recorded = data.recTillNow;
   if(data.obvious){
     fact.adj1 = wordPool.cnj[1];
